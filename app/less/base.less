@@ -1,0 +1,163 @@
+/* Basic Structure */
+
+html,
+body,
+.diagram-annotation-tool {
+  height: 100%;
+}
+
+.diagram-annotation-tool {
+  display: flex;
+  flex-direction: column;
+}
+
+header,
+footer {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+/* Header */
+
+header {
+  h1 {
+    font-size: @font-size;
+    margin: 0;
+  }
+}
+
+/* Main Pane */
+
+main {
+  flex-grow: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+
+  .loading-indicator {
+    .hcenter;
+    .vcenter;
+  }
+}
+
+.hcenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vcenter {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.msg {
+  border-radius: 4px;
+}
+
+.msg-list {
+  position: absolute;
+  list-style-type: none;
+  top: @spacing;
+  right: @spacing;
+  padding: 0;
+  margin: 0;
+  z-index: 100;
+
+  .msg {
+    animation: fadeInAndBounce 3s ease-in-out 1;
+    margin: @spacing 0;
+    opacity: 0;
+    width: 300px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@keyframes fadeInAndBounce {
+  0% {
+    opacity: 0;
+    transform: translateX(115%);
+  }
+  20% {
+    opacity: 0.7;
+    transform: translateX(-5%);
+  }
+  25% {
+    opacity: 0.9;
+    transform: translateX(0);
+  }
+  75% {
+    opacity: 0.9;
+    transform: translateX(0);
+  }
+  80% {
+    opacity: 0.7;
+    transform: translateX(-5%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(115%);
+  }
+}
+
+/* Loading Indicator */
+
+.loading-indicator-progress {
+  animation-name: spin;
+  animation-iteration-count: infinite;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  transform-origin: left bottom;
+}
+
+@keyframes spin {
+  from {
+    transform: rotateZ(0);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+/* Footer */
+
+footer {
+  background: linear-gradient(to bottom, @lighter-gray, @light-gray);
+  border-top: 1px solid @light-gray;
+  font-size: @font-size-sm;
+
+  button {
+    margin-left: @spacing-sm;
+  }
+}
+
+/* Made by AI2 */
+
+.made-by-ai2 {
+  padding: @spacing-xsm / 2 @spacing @spacing-xsm;
+  background: lighten(@lighter-gray, 5%);
+  border-radius: 25px;
+  border-top: 1px solid @light-gray;
+
+  strong {
+    font-size: @font-size-xsm;
+    margin-right: @spacing-xsm;
+    text-transform: uppercase;
+    color: @gray;
+  }
+
+  > * {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  img {
+    margin-right: @spacing-xsm;
+  }
+}

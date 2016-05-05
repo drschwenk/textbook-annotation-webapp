@@ -1,0 +1,425 @@
+.annotator {
+  display: flex;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.annotation-pane {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  position: relative;
+  user-select: none;
+  background: lighten(@lighter-gray, 2%);
+}
+
+.arrow-orientor {
+  width: 0px;
+  height: 0px;
+  opacity: 0.4;
+  border-left-color: @purple;
+  border-left-style: solid;
+  border-top-style: solid;
+  border-top-color: transparent;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+}
+
+.arrow-annotation-controls {
+  background: #fff;
+  border: 1px solid @light-gray;
+  box-shadow: 1px 1px 4px @light-gray;
+  position: fixed;
+  right: 0;
+  margin: @spacing-sm;
+  padding: @spacing-sm;
+  min-width: 200px;
+  z-index: 1;
+
+  label {
+    margin-right: @spacing-sm;
+    font-weight: bold;
+  }
+
+  arrow-label {
+    &:extend(label);
+  }
+  shape-label {
+    &:extend(label);
+  }
+
+  relation-label {
+    &:extend(label);
+  }
+
+  container-label {
+    &:extend(label);
+  }
+
+  text-label {
+    &:extend(label);
+  }
+
+  .btn-add {
+    display: block;
+    width: 100%;
+  }
+
+  > div > p:first-child {
+    margin-top: 0;
+  }
+}
+
+.annotation-bounds {
+  border: 2px dotted @red;
+  position: absolute;
+  z-index: 1;
+
+  label {
+    background: @red;
+    color: #fff;
+    font-size: @font-size-xsm;
+    font-weight: bold;
+    padding: @spacing-xsm / 2;
+    text-transform: none;
+    white-space: nowrap;
+    border-radius: 2px;
+    transition: opacity 100ms linear;
+    pointer-events: none;
+  }
+
+  arrow-label {
+    &:extend(label);
+  }
+  shape-label {
+    &:extend(label);
+  }
+
+  relation-label {
+    &:extend(label);
+  }
+
+  container-label {
+    &:extend(label);
+  }
+
+  text-label {
+    &:extend(label);
+  }
+
+  .relationship-label-list,
+  .shape-id-label {
+    position: absolute;
+  }
+
+  .shape-id-label {
+    left: -2px;
+    top: -32px;
+  }
+
+  .relationship-label-list {
+    right: -2px;
+    bottom: -32px;
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+
+    li {
+      display: inline-block;
+      margin: 0 @spacing-xsm / 4;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.hide-labels label {
+  opacity: 0;
+}
+
+.hide-arrow-labels label.arrow-label {
+  opacity: 0;
+}
+
+.hide-text-labels label.text-label {
+  opacity: 0;
+}
+
+.hide-shape-labels label.shape-label {
+  opacity: 0;
+}
+
+.hide-relation-labels .relationship-label-list{
+  opacity: 0;
+}
+
+.hide-container-labels label.container-label {
+  opacity: 0;
+}
+
+.relationship-annotation-pane {
+  .annotation-bounds *,
+  .annotation-bounds {
+    cursor: pointer;
+  }
+
+  .annotation-bounds {
+    &:hover {
+      border-color: @green;
+      background: rgba(63, 182, 44, 0.6);
+
+      label {
+        background: @green;
+      }
+
+      arrow-label {
+        &:extend(label);
+      }
+      shape-label {
+        &:extend(label);
+      }
+
+      relation-label {
+        &:extend(label);
+      }
+
+      container-label {
+        &:extend(label);
+      }
+
+      text-label {
+        &:extend(label);
+      }
+    }
+  }
+}
+
+
+
+.crosshair-h {
+  border-left: 1px solid #aaa;
+  position: absolute;
+  height: 100%;
+}
+
+.crosshair-v {
+  border-top: 1px solid #aaa;
+  width: 100%;
+  position: absolute;
+}
+
+.arrow-annotation-pane,
+.text-annotation-pane,
+.shape-annotation-pane {
+  cursor: not-allowed;
+
+  .annotation-pane-image {
+    cursor: crosshair;
+  }
+}
+
+.annotation-pane-image {
+  position: relative;
+  display: inline-block;
+  margin: auto;
+  box-shadow: 1px 1px 4px @light-gray;
+}
+
+.annotation-pane-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 16777216;
+}
+
+.annotation-pane-dialog {
+  margin: auto;
+  background: #fff;
+  box-shadow: 1px 1px 6px @dark-shadow;
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  input[type="text"] {
+    min-width: 300px;
+  }
+}
+
+.annotation-pane-dialog-header,
+.annotation-pane-dialog-content {
+  padding: @spacing;
+}
+
+.annotation-pane-dialog-header {
+  background: @lighter-gray;
+  font-weight: bold;
+
+  .icon-x {
+    cursor: pointer;
+    color: @gray;
+    transition: color 150ms linear;
+
+    &:hover {
+      color: @blue;
+    }
+  }
+}
+
+.header-annotation-controls {
+  opacity: 0;
+  transition: opacity 150ms linear;
+
+  &.visible {
+    opacity: 1;
+  }
+
+  > * {
+    margin: 0 @spacing-xsm;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  input[type="checkbox"] {
+    position: static;
+    top: auto;
+  }
+
+  input[type="checkbox"] ~ label {
+    color: #fff;
+    font-weight: bold;
+  }
+
+  input[type="checkbox"],
+  input[type="checkbox"] ~ label {
+    cursor: pointer;
+  }
+
+}
+
+@darker-blue: darken(@dark-blue, 5%);
+@even-darker-blue: darken(@dark-blue, 15%);
+
+.annotation-count,
+.annotation-position {
+  border-radius: 38.5px;
+  border-top: 1px solid darken(@dark-blue, 10%);
+  background: @darker-blue;
+  padding: @spacing-xsm / 2;
+  min-width: 150px;
+  font-size: @font-size-sm;
+}
+
+.annotation-position {
+  button {
+    padding: @spacing-xsm / 4;
+    border-radius: 50%;
+    font-size: @font-size-l;
+    min-width: 26px;
+  }
+}
+
+.annotation-count {
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: @font-size-xsm;
+  font-weight: bold;
+  min-width: 32px;
+  padding: @spacing-xsm / 2 + @spacing-xsm / 4;
+  position: relative;
+  transition: background 150ms linear;
+  text-align: center;
+
+  &:hover,
+  &.list-visible {
+    background: @even-darker-blue;
+  }
+
+  li {
+    margin: @spacing-sm 0;
+    font-weight: normal;
+
+    strong {
+      margin-right: @spacing-xsm;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.empty {
+      text-align: center;
+    }
+  }
+}
+
+.annotation-list {
+  background: @even-darker-blue;
+  box-shadow: 1px 1px 4px @dark-shadow;
+  border-radius: 4px;
+  cursor: default;
+  left: 50%;
+  margin: @spacing-xsm 0 0 -150px;
+  padding: @spacing-sm;
+  position: absolute;
+  top: 100%;
+  width: 300px;
+  z-index: 99;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    max-height: 200px;
+    overflow: auto;
+    padding: 0;
+  }
+}
+
+.annotation-list-id {
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@arrow-width: 15px;
+@arrow-height: @arrow-width / 2;
+@arrow-size: sqrt(2 * pow(@arrow-height, 2));
+
+.arrow-up {
+  height: @arrow-height;
+  left: 50%;
+  margin-left: -1 * @arrow-width / 2;
+  overflow: hidden;
+  position: absolute;
+  top: -@arrow-height;
+  width: @arrow-width;
+}
+
+.arrow-up:after {
+  background: @even-darker-blue;
+  box-shadow: 1px 1px 4px @dark-shadow;
+  content: "";
+  height: @arrow-size;
+  left: (@arrow-width - @arrow-size) / 2;
+  position: absolute;
+  transform: rotate(45deg) translateZ(0);
+  top: (@arrow-width - @arrow-size) / 2;
+  width: @arrow-size;
+}
