@@ -2,7 +2,7 @@ from flask import abort, request
 from server import app
 from server import jsonify
 import json
-
+from subprocess import call
 
 def valid_request(req):
     if not req.json:
@@ -31,7 +31,7 @@ def get_image():
 
 @app.route('/api/datasets/1/images', methods=['GET'])
 def get_finished_image():
-    img_dict = dict(zip(fields, test_val))
+
     return jsonify([0, 1, 2])
 
 

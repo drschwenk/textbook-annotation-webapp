@@ -51,6 +51,8 @@ class HeaderAnnotationControls extends React.Component {
         this.state.visible ? 'visible' : '' ].join(' ');
     return (
       <div className={klazz}>
+          {/*
+           */}
         <LabelVisiblityToggle />
         <AnnotationListButton annotations={this.state.annotations} />
         <AnnotationModeSelector />
