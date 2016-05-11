@@ -18,27 +18,72 @@ def valid_request(req):
     return True
 
 
-i_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/page-images/Daily_Science_Grade_5_Evan_Moor_10.jpeg'
-a_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/annotations/Daily_Science_Grade_5_Evan_Moor_149.json'
+i_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/page-images/'
+a_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/annotations/'
+i1 = 'Daily_Science_Grade_5_Evan_Moor_149.jpeg'
+a1 = 'Daily_Science_Grade_5_Evan_Moor_149.json'
+i2 = 'Spectrum_Science_Grade_7_40.jpeg'
+a2 = 'Spectrum_Science_Grade_7_40.json'
 
-fields = ['id', 'url', 'state', 'sha256sum']
-test_val = [1, i_path, 'pending', '0']
+fields = ['id', 'url']
+with open(a1) as f:
+    aj1 = json.load(f)
 
 
 @app.route('/api/datasets/1/nextImage', methods=['GET'])
 def get_image():
-    img_dict = dict(zip(fields, test_val))
-    img_json = json.dumps(img_dict)
-    return jsonify(img_dict)
+    img_val = [1, i_path + i1]
+    img_dict = dict(zip(fields, img_val))
+    img_json =jsonify(img_dict)
+    # print(dir(img_json))
+    # print(img_json.data)
+    return img_json
 
 
 @app.route('/api/datasets/1/images', methods=['GET'])
 def get_finished_image():
+    return jsonify([1, 2, 3])
 
-    return jsonify([0, 1, 2])
+
+@app.route('/api/nextImage/2', methods=['GET'])
+def get_image2():
+    img_val = [2, i_path + i2]
+    img_dict = dict(zip(fields, img_val))
+    img_json =jsonify(img_dict)
+    # print(dir(img_json))
+    # print(img_json.data)
+    return img_json
+
+
+@app.route('/api/images/1', methods=['GET'])
+def get_image_nodata():
+    img_val = [1, i_path + i1]
+    img_dict = dict(zip(fields, img_val))
+    img_json = jsonify(img_dict)
+    return img_json
+
+@app.route('/api/images/2', methods=['GET'])
+def get_image_nodata2():
+    img_val = [2, i_path + i2]
+    img_dict = dict(zip(fields, img_val))
+    img_json = jsonify(img_dict)
+    return img_json
 
 
 @app.route('/api/images/1/annotations', methods=['GET'])
 def get_annotation():
-    return jsonify([])
+    ann_val = [1, a_path + a1]
+    ann_dict = dict(zip(fields, ann_val))
+    ann_json =jsonify(ann_dict)
+    print(ann_json.data)
+    return jsonify(aj1)
+
+
+@app.route('/api/images/2/annotations', methods=['GET'])
+def get_annotation2():
+    ann_val = [2, a_path + a2]
+    ann_dict = dict(zip(fields, ann_val))
+    ann_dict = dict(zip(fields, a_path + a2))
+    ann_json =jsonify(ann_dict)
+    return ann_json
 

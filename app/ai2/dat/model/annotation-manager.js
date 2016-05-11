@@ -338,19 +338,21 @@ class AnnotationManager extends EventEmitter {
       var remoteAnnotationMap = new Map();
       var remoteArrowOriginMap = new Map();
       var remoteArrowDestinationMap = new Map();
-      // response.annotations.forEach(function(annotation) {
-      //   am.importRemoteAnnotation(image.id, annotation, remoteAnnotationMap);
-      //   imported += 1;
-      // });
-      //
-      // response.arrows.forEach(function(arrow) {
-      //   am.importRemoteArrowAnnotation(image.id, arrow, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
-      // });
-      //
-      // response.relationships.forEach(function(remoteRelationship) {
-      //   am.importRemoteRelationship(image.id, remoteRelationship, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
-      //   imported += 1;
-      // });
+      console.log(response);
+
+      response.annotations.forEach(function(annotation) {
+        am.importRemoteAnnotation(image.id, annotation, remoteAnnotationMap);
+        imported += 1;
+      });
+
+      response.arrows.forEach(function(arrow) {
+        am.importRemoteArrowAnnotation(image.id, arrow, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
+      });
+
+      response.relationships.forEach(function(remoteRelationship) {
+        am.importRemoteRelationship(image.id, remoteRelationship, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
+        imported += 1;
+      });
 
        MessageManager.success(imported + ' annotations imported.');
       callback();
