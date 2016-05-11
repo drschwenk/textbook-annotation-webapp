@@ -340,22 +340,22 @@ class AnnotationManager extends EventEmitter {
       var remoteArrowDestinationMap = new Map();
       console.log(response);
 
-      response.annotations.forEach(function(annotation) {
-        am.importRemoteAnnotation(image.id, annotation, remoteAnnotationMap);
-        imported += 1;
-      });
-
-      response.arrows.forEach(function(arrow) {
-        am.importRemoteArrowAnnotation(image.id, arrow, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
-      });
-
-      response.relationships.forEach(function(remoteRelationship) {
-        am.importRemoteRelationship(image.id, remoteRelationship, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
-        imported += 1;
-      });
-
-       MessageManager.success(imported + ' annotations imported.');
-      callback();
+      // response.annotations.forEach(function(annotation) {
+      //   am.importRemoteAnnotation(image.id, annotation, remoteAnnotationMap);
+      //   imported += 1;
+      // });
+      //
+      // response.arrows.forEach(function(arrow) {
+      //   am.importRemoteArrowAnnotation(image.id, arrow, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
+      // });
+      //
+      // response.relationships.forEach(function(remoteRelationship) {
+      //   am.importRemoteRelationship(image.id, remoteRelationship, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
+      //   imported += 1;
+      // });
+      //
+      //  MessageManager.success(imported + ' annotations imported.');
+      // callback();
     }).catch(function(e) {
       MessageManager.warn("Error loading imageId: " + image.id + " " + e);
     });
