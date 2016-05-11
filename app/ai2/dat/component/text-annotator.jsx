@@ -104,6 +104,8 @@ class TextAnnotator extends Annotator {
     );
   }
   render() {
+    var tool_body = window.document.getElementsByTagName('main')[0];
+    var body_height = tool_body.clientHeight;
     var onMouseDown, onMouseMove,
         overlay, cssClass;
 
@@ -138,7 +140,7 @@ class TextAnnotator extends Annotator {
             onMouseMove={this.updateCrosshairs.bind(this)}
             ref="origin">
           {this.crosshairs()}
-          <img src={this.props.imageUrl} className="hcenter vcenter" />
+          <img src={this.props.imageUrl} style={{height: body_height}} />
           {this.props.annotations}
           {rect}
         </div>

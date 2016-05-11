@@ -117,11 +117,13 @@ class RelationshipAnnotator extends Annotator {
     }
   }
   render() {
+    var tool_body = window.document.getElementsByTagName('main')[0];
+    var body_height = tool_body.clientHeight;
     var cssClass = 'annotation-pane relationship-annotation-pane';
     return (
       <div className={cssClass}>
         <div className="annotation-pane-image" ref="origin">
-          <img src={this.props.imageUrl} className="hcenter vcenter" />
+          <img src={this.props.imageUrl} style={{height: body_height}} />
           {this.props.annotations}
         </div>
       </div>

@@ -52,8 +52,8 @@ class HeaderAnnotationControls extends React.Component {
     return (
       <div className={klazz}>
           {/*
+          <LabelVisiblityToggle />
            */}
-        <LabelVisiblityToggle />
         <AnnotationListButton annotations={this.state.annotations} />
         <AnnotationModeSelector />
         <AnnotationProgress />

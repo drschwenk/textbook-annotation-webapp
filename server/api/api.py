@@ -4,6 +4,7 @@ from server import jsonify
 import json
 from subprocess import call
 
+
 def valid_request(req):
     if not req.json:
         return False
@@ -17,7 +18,9 @@ def valid_request(req):
     return True
 
 
-i_path = 'page_sample.png'
+i_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/page-images/Daily_Science_Grade_5_Evan_Moor_10.jpeg'
+a_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/annotations/Daily_Science_Grade_5_Evan_Moor_149.json'
+
 fields = ['id', 'url', 'state', 'sha256sum']
 test_val = [1, i_path, 'pending', '0']
 

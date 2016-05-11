@@ -35,8 +35,9 @@ class ImageAnnotator extends React.Component {
       showShapeLabels: SettingsManager.get(Setting.SHOW_SHAPE_LABELS),
       showRelationLabels: SettingsManager.get(Setting.SHOW_RELATION_LABELS),
       showContainerLabels: SettingsManager.get(Setting.SHOW_CONTAINER_LABELS),
-      showTextLabels: SettingsManager.get(Setting.SHOW_TEXT_LABELS)
-    };
+      showTextLabels: SettingsManager.get(Setting.SHOW_TEXT_LABELS),
+
+  };
     // This sets up these functions so that they're bound to the current instance, since
     // they're executed as event handlers
     this.loadCurrentImage = this.loadCurrentImage.bind(this);
@@ -44,6 +45,7 @@ class ImageAnnotator extends React.Component {
     this.updateAnnotationMode = this.updateAnnotationMode.bind(this);
     this.updateLabelDisplaySetting = this.updateLabelDisplaySetting.bind(this);
   }
+
   componentDidMount() {
     SettingsManager.on(SettingsManagerEvent.SETTING_CHANGED, this.updateLabelDisplaySetting);
     ImageManager.on(ImageManagerEvent.SELECTED_IMAGE_CHANGED, this.loadCurrentImage);
@@ -56,7 +58,6 @@ class ImageAnnotator extends React.Component {
     ImageManager.selectNextImage();
   }
   componentWillUnmount() {
-    console.log('here');
     SettingsManager.off(SettingsManagerEvent.SETTING_CHANGED, this.updateLabelDisplaySetting);
     ImageManager.off(ImageManagerEvent.SELECTED_IMAGE_CHANGED, this.loadCurrentImage);
     AnnotationManager
@@ -157,7 +158,6 @@ class ImageAnnotator extends React.Component {
   }
   renderAnnotator() {
     var annotator;
-
     var annotations = this.renderAnnotations();
     switch (this.state.annotationMode) {
       case AnnotationMode.SHAPES:
@@ -237,3 +237,4 @@ class ImageAnnotator extends React.Component {
 }
 
 module.exports = ImageAnnotator;
+

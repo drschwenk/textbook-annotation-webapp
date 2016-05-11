@@ -1,16 +1,17 @@
 'use strict';
 
 const AnnotationMode = {
-  ARROWS: 'arrows',
-  SHAPES: 'shapes',
+  // ARROWS: 'arrows',
+  // SHAPES: 'shapes',
   RELATIONSHIPS: 'relationships',
-  CONTAINERS: 'containers',
-  ARROW_LABELS: 'arrow labels',
+  // CONTAINERS: 'containers',
+  // ARROW_LABELS: 'arrow labels',
   TEXT: 'text'
 };
 
 AnnotationMode.default = function() {
-  return AnnotationMode.ARROWS;
+  // return AnnotationMode.RELATIONSHIPS;
+  return AnnotationMode.RELATIONSHIPS;
 };
 
 AnnotationMode.all = function() {
