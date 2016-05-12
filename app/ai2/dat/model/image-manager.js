@@ -53,7 +53,6 @@ class ImageManager extends EventEmitter {
   nextImage() {
     Agent.nextImage(function(image) {
       this.currentImage = image;
-      console.log(image);
       this.emit(ImageManagerEvent.SELECTED_IMAGE_CHANGED, this.currentImage);
     }.bind(this));
     return this;

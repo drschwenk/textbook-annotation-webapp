@@ -11,7 +11,7 @@ const AnnotationMode = {
 
 AnnotationMode.default = function() {
   // return AnnotationMode.RELATIONSHIPS;
-  return AnnotationMode.TEXT;
+  return AnnotationMode.RELATIONSHIPS;
 };
 
 AnnotationMode.all = function() {

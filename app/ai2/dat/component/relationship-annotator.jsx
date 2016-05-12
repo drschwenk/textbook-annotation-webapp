@@ -80,22 +80,23 @@ class RelationshipAnnotator extends Annotator {
   }
 
   handleClickEvent(event, annotation, arrowPoint, arrowPointType) {
-    if (!this.relationship) {
-      this.relationship = new RelationshipAnnotation(
-          AnnotationManager.getNewAnnotationId(AnnotationType.RELATIONSHIP)
-      );
-    }
-    if (annotation instanceof ShapeAnnotation || annotation instanceof TextAnnotation || annotation instanceof ContainerAnnotation ) {
-      this.handleAnnotationClick(annotation);
-    } else if (annotation instanceof ArrowAnnotation) {
-      this.handleArrowPointClick(annotation, arrowPoint, arrowPointType);
-    }
-
-    if(this.relationship.source && this.relationship.target) {
-      AnnotationManager.addAnnotation(this.props.imageId, this.relationship);
-      this.relationship = undefined;
-    }
   }
+  //   if (!this.relationship) {
+  //     this.relationship = new RelationshipAnnotation(
+  //         AnnotationManager.getNewAnnotationId(AnnotationType.RELATIONSHIP)
+  //     );
+  //   }
+  //   if (annotation instanceof ShapeAnnotation || annotation instanceof TextAnnotation || annotation instanceof ContainerAnnotation ) {
+  //     this.handleAnnotationClick(annotation);
+  //   } else if (annotation instanceof ArrowAnnotation) {
+  //     this.handleArrowPointClick(annotation, arrowPoint, arrowPointType);
+  //   }
+  //
+  //   if(this.relationship.source && this.relationship.target) {
+  //     AnnotationManager.addAnnotation(this.props.imageId, this.relationship);
+  //     this.relationship = undefined;
+  //   }
+  // }
 
   componentDidMount() {
     super.componentDidMount();

@@ -204,14 +204,32 @@ class AnnotationManager extends EventEmitter {
   }
 
   importRemoteAnnotation(imageId, remoteAnnotation, remoteAnnotationMap) {
+    var tool_body = window.document.getElementsByTagName('main')[0];
+    var body_height = tool_body.clientHeight;
+    var num = ~~(body_height / 59);
     for(var key in remoteAnnotation){
       var box_name = key;
       var annoation_val = remoteAnnotation[key];
     }
 
+    var o_height = 3247;
     var bounding_boxes = annoation_val.rectangle;
-    var bounds = new Bounds(new Point(bounding_boxes[0][0], bounding_boxes[0][1]), new Point(bounding_boxes[1][0], bounding_boxes[1][1]));
-    // console.log(bounds);
+    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
+    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-10;
+    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+10;
+    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+10;
+
+    // var upscale_width = (c3 - c1)*1.05;
+    // var upscale_height = (c4 - c2)*1.05;
+
+    // console.log(c1, c2, c3, c4);
+
+    // var c1 = ~~(bounding_boxes[0][0]*body_height/o_height - upscale_width);
+    // var c2 = ~~(bounding_boxes[0][1]*body_height/o_height - upscale_height);
+    // var c3 = ~~(bounding_boxes[1][0]*body_height/o_height + upscale_width);
+    // var c4 = ~~(bounding_boxes[1][1]*body_height/o_height + upscale_height);
+
+    var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
     var annotation;
     switch (annoation_val.type) {
       case AnnotationType.SHAPE:
@@ -224,7 +242,8 @@ class AnnotationManager extends EventEmitter {
         annotation = new TextAnnotation(
             annoation_val.box_id,
             bounds,
-            annoation_val.contents
+            annoation_val.contents,
+            annoation_val.category
             );
         break;
       case "figure": // skip arrows since they are imported separately
@@ -237,7 +256,7 @@ class AnnotationManager extends EventEmitter {
     
     if (annotation) {
       annotation.remoteId = annoation_val.box_id;
-      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + remoteAnnotation.id;
+      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + annoation_val.box_id;
       this.importAnnotation(imageId, annotation);
       remoteAnnotationMap.set(annotation.remoteId, annoation_val.id);
     }
@@ -261,6 +280,7 @@ class AnnotationManager extends EventEmitter {
   }
 
   importAnnotationsFromJson(imageId, annotations) {
+
     var imported = 0;
     // if (ImageManager.hasImageWithName(imageId)) {
       if(1) {
