@@ -28,6 +28,13 @@ a2 = 'Spectrum_Science_Grade_7_40.json'
 fields = ['id', 'url']
 with open(a1) as f:
     aj1 = json.load(f)
+    # print(aj1)
+    flattened_json = []
+    for a_type, objs in aj1.items():
+        for obj_name, obj in objs.items():
+            obj['type'] = a_type
+            flattened_json.append({obj_name: obj})
+    print(flattened_json)
 
 
 @app.route('/api/datasets/1/nextImage', methods=['GET'])
@@ -76,7 +83,7 @@ def get_annotation():
     ann_dict = dict(zip(fields, ann_val))
     ann_json =jsonify(ann_dict)
     print(ann_json.data)
-    return jsonify(aj1)
+    return jsonify(flattened_json)
 
 
 @app.route('/api/images/2/annotations', methods=['GET'])
