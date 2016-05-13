@@ -9,6 +9,7 @@ const AnnotationManager = require('../model/annotation-manager');
 const Messages = require('./messages.jsx');
 const KeyMaster = require('../util/key-master');
 const KeyCode = require('../util/key-code');
+const CategorySelector = require('./category-selector.jsx');
 
 class DiagramAnnotationTool extends React.Component {
   constructor(props) {
@@ -75,6 +76,7 @@ class DiagramAnnotationTool extends React.Component {
         <main>
           <Messages />
           {view}
+          <CategorySelector />
         </main>
         <footer className="padded flex-row">
           <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-left">
@@ -91,3 +93,4 @@ class DiagramAnnotationTool extends React.Component {
 }
 
 module.exports = DiagramAnnotationTool;
+
