@@ -11,6 +11,7 @@ const KeyMaster = require('../util/key-master');
 const KeyCode = require('../util/key-code');
 const CategorySelector = require('./category-selector.jsx');
 
+
 class DiagramAnnotationTool extends React.Component {
   constructor(props) {
     super(props);
@@ -51,7 +52,10 @@ class DiagramAnnotationTool extends React.Component {
     var view = <ImageAnnotator />;
     return view;
   }
-
+  renderCategoryPicker(){
+    var sidebar = <CategorySelector />;
+    return sidebar;
+  }
   saveAndAdvance() {
     ImageManager.finishCurrentImage();
     var image_id = ImageManager.getCurrentImageId();
@@ -66,6 +70,7 @@ class DiagramAnnotationTool extends React.Component {
 
   render() {
     var view = this.renderView();
+    var sidebar = this.renderCategoryPicker();
     return (
       <div className="diagram-annotation-tool"
           onDragOver={this.cancelDragOver}>
@@ -75,8 +80,8 @@ class DiagramAnnotationTool extends React.Component {
         </header>
         <main>
           <Messages />
+          {sidebar}
           {view}
-          <CategorySelector />
         </main>
         <footer className="padded flex-row">
           <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-left">
@@ -93,4 +98,5 @@ class DiagramAnnotationTool extends React.Component {
 }
 
 module.exports = DiagramAnnotationTool;
+
 

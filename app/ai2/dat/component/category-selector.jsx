@@ -3,45 +3,46 @@
 const React = require('react');
 
 const AnnotationManager = require('../model/annotation-manager');
-// const Annotator = require('./annotator.jsx');
 
 class CategorySelector extends React.Component {
 
-    doStuff(){
-        console.log('stuff');
+    constructor(props) {
+        super(props);
+    }
+
+    handleClickEvent(selected_category){
+        console.log(selected_category);
+        console.log(AnnotationManager.getCurrentCategory());
     }
 
     render() {
         return (
-            <div className="annotation-pane-overlay">
-                <div className="annotation-pane-dialog">
-                    <div className="annotation-pane-dialog-header flex-row">
-                        <span>Select Category</span>
-                        <a className="icon-x flex-align-right"
-                           onClick={this.doStuff()}></a>
-                    </div>
-                    <div className="annotation-pane-dialog-content">
-                        <p>
-                            <input type="text"
-                                   onChange={this.doStuff()}
-                                   onKeyDown={this.doStuff()}
-                                   ref="text"/>
-                        </p>
-                        <button onClick={this.doStuff()} className="btn-green">Definition</button>
-                    </div>
+            <div className="annotation-pane-dialog-header">
+                <span>Select Category</span>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Header/Topic")} className="btn-orange">Header/Topic</button>
+                </div>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Discussion")} className="btn-blue">Discussion</button>
+                </div>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Definition")} className="btn-dark-blue">Definition</button>
+                </div>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Question")} className="btn-red">Question</button>
+                </div>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Answer")} className="btn-green">Answer</button>
+                </div>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Figure Label")} className="btn-dark-blue">Figure Label</button>
+                </div>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Other")} className="btn-gray">Other</button>
                 </div>
             </div>
-        );
+    );
     }
-
-    // render() {
-    //     return (
-    //         <div>
-    //
-    //         </div>
-    //     );
-    // }
-
 }
 
 module.exports = CategorySelector;

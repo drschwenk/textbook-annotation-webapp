@@ -61,6 +61,7 @@ class AnnotationManager extends EventEmitter {
     this.mode = AnnotationMode.default();
     this.annotations = new Map();
     this.idSequence = 0;
+    this.current_category_selector= "Header/Topic";
   }
   clear() {
     this.annotations.clear();
@@ -68,6 +69,12 @@ class AnnotationManager extends EventEmitter {
   }
   getMode() {
     return this.mode;
+  }
+  getCurrentCategory(){
+    return this.current_category_selector;
+  }
+  setCurrentCategory(new_category){
+    this.current_category_selector = new_category;
   }
   resetAnnotations(imageId) {
     this.annotations.set(imageId, new AnnotationCollection());

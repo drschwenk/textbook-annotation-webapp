@@ -11,10 +11,30 @@ const RelationshipAnnotation = require('../model/relationship-annotation');
 const ArrowAnnotation = require('../model/arrow-annotation');
 const Annotator = require('./annotator.jsx');
 
+
 class RelationshipAnnotator extends Annotator {
   constructor(props) {
     super(props);
+
   }
+
+  // handleAnnotationClick(annotation) {
+  //   if (this.relationship.isRelated(annotation.id)) {
+  //     if (this.relationship.source === annotation.id) {
+  //       this.relationship.removeSourceId();
+  //     } else {
+  //       this.relationship.removeTargetId();
+  //     }
+  //     annotation.removeRelationship(this.relationship);
+  //   } else {
+  //     if (!this.relationship.source) {
+  //       this.relationship.setSourceId(annotation.id);
+  //     } else {
+  //       this.relationship.setTargetId(annotation.id);
+  //     }
+  //     annotation.addRelationship(this.relationship);
+  //   }
+  // }
 
   handleAnnotationClick(annotation) {
     if (this.relationship.isRelated(annotation.id)) {
@@ -105,6 +125,7 @@ class RelationshipAnnotator extends Annotator {
   componentDidMount() {
     super.componentDidMount();
     AnnotationClickManager.activate().clicked(this.handleClickEvent.bind(this));
+    this.setState({current_category_selector: "Definition"});
   }
 
   cancel() {
@@ -121,6 +142,9 @@ class RelationshipAnnotator extends Annotator {
       this.relationship = undefined;
     }
   }
+
+
+
   render() {
     var tool_body = window.document.getElementsByTagName('main')[0];
     var body_height = tool_body.clientHeight;
