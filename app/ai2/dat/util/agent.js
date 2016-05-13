@@ -106,25 +106,42 @@ module.exports  = {
   },
   saveAnnotation: (annotationManager, imageId, annotation) => {
 
-    var bounds = {x1: annotation.bounds.coords[0].x, y1: annotation.bounds.coords[0].y, 
-                  x2: annotation.bounds.coords[1].x, y2: annotation.bounds.coords[1].y};
+    // var bounds = {x1: annotation.bounds.coords[0].x, y1: annotation.bounds.coords[0].y,
+    //               x2: annotation.bounds.coords[1].x, y2: annotation.bounds.coords[1].y};
 
     // when we save shapes, its possible to assign a relationship to an existing
     // text annotation, since a relationship needs ids to be created we defer creation
     // of the relationship until the shape is created, then save the relationship
-    var relationshipCallback = function(relationship) {
-      if (!relationship.remoteId) {
-        annotationManager.addAnnotation(imageId, relationship);
-      }
-    };
+    // var relationshipCallback = function(relationship) {
+    //   if (!relationship.remoteId) {
+    //     annotationManager.addAnnotation(imageId, relationship);
+    //   }
+    // };
+
+    var category_designation = annotation.category;
     qwest.post("/api/images/" + imageId + "/annotations", 
-      { bounds: bounds, text: annotation.text, annotationType: annotation.type}, {dataType: 'json'}).then(
-      function(response) {
-        annotation.remoteId = response.id; 
-        annotation.remoteUrl = this.getResponseHeader('Location');
-        annotation.relationships.forEach(relationshipCallback);
-    }).catch(function(e){
+      {category: category_designation}, {dataType: 'json'}).catch(function(e){
       MessageManager.warn('Failed to save annotation' + e);
+    });
+  },
+  saveAnnotations: (imageId, annotation_map) => {
+    var return_vals = [];
+    for(var a_map  in annotation_map){
+      // console.log(annotation_map[a_map]);
+      annotation_map[a_map].forEach(function(obj, key){
+      var subset = ['id', 'category'].reduce(function (o, k) {
+        // console.log(o);
+        o[k] = obj[k];
+        // console.log(o);
+        return o;
+      },{});
+      return_vals.push(subset);
+      });
+    }
+    var json_return_vals = JSON.stringify(return_vals);
+      qwest.post("/api/images/" + imageId + "/annotations",
+        json_return_vals, {dataType: 'json'}).catch(function(e){
+        MessageManager.warn('Failed to save annotation' + e);
     });
   }
 };

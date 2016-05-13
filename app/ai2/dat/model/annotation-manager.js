@@ -132,20 +132,20 @@ class AnnotationManager extends EventEmitter {
   }
 
   addAnnotation(imageId, annotation) {
-    if (!this.annotations.has(imageId)) {
-      this.annotations.set(imageId, new AnnotationCollection());
-    }
-    this.annotations.get(imageId).add(annotation);
-    if (annotation instanceof RelationshipAnnotation) {
-      this.addRelationships(imageId, annotation);
-      var targetId = this.getAnnotation(imageId, annotation.target).remoteId;
-      var sourceId = this.getAnnotation(imageId, annotation.source).remoteId;
-      Agent.saveRelationship(imageId, annotation, sourceId, targetId);
-    } else if (annotation instanceof ArrowAnnotation) {
-      Agent.saveArrow(imageId, annotation);
-    } else {
-      Agent.saveAnnotation(this, imageId, annotation);
-    }
+    // if (!this.annotations.has(imageId)) {
+    //   this.annotations.set(imageId, new AnnotationCollection());
+    // }
+    // this.annotations.get(imageId).add(annotation);
+    // if (annotation instanceof RelationshipAnnotation) {
+    //   this.addRelationships(imageId, annotation);
+    //   var targetId = this.getAnnotation(imageId, annotation.target).remoteId;
+    //   var sourceId = this.getAnnotation(imageId, annotation.source).remoteId;
+    //   Agent.saveRelationship(imageId, annotation, sourceId, targetId);
+    // } else if (annotation instanceof ArrowAnnotation) {
+    //   Agent.saveArrow(imageId, annotation);
+    // } else {
+    Agent.saveAnnotation(this, imageId, annotation);
+    // }
     this.emit(AnnotationManagerEvent.ANNOTATION_ADDED, imageId, annotation);
     return this;
   }
@@ -163,6 +163,9 @@ class AnnotationManager extends EventEmitter {
       }
     }
     return this;
+  }
+  saveAnnotations(imageID, annotation_map){
+    Agent.saveAnnotations(imageID, annotation_map);
   }
   getNewAnnotationId(annotationType) {
     this.idSequence += 1;

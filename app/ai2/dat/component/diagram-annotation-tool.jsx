@@ -53,6 +53,9 @@ class DiagramAnnotationTool extends React.Component {
 
   saveAndAdvance() {
     ImageManager.finishCurrentImage();
+    var image_id = ImageManager.getCurrentImageId();
+    var annotation_map = AnnotationManager.getAnnotations(image_id);
+    AnnotationManager.saveAnnotations(image_id, annotation_map);
     ImageManager.selectNextImage();
   }
 

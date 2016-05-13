@@ -62,11 +62,15 @@ def get_image2():
     return img_json
 
 
-@app.route('/api/images/1', methods=['GET'])
+@app.route('/api/images/1', methods=['GET', 'PUT'])
 def get_image_nodata():
-    img_val = [1, i_path + i1]
-    img_dict = dict(zip(fields, img_val))
-    img_json = jsonify(img_dict)
+    if request.method == "PUT":
+        # print(request.data)
+        return 'test'
+    else:
+        img_val = [1, i_path + i1]
+        img_dict = dict(zip(fields, img_val))
+        img_json = jsonify(img_dict)
     return img_json
 
 @app.route('/api/images/2', methods=['GET'])
@@ -77,12 +81,16 @@ def get_image_nodata2():
     return img_json
 
 
-@app.route('/api/images/1/annotations', methods=['GET'])
+@app.route('/api/images/1/annotations', methods=['GET', 'POST'])
 def get_annotation():
-    ann_val = [1, a_path + a1]
-    ann_dict = dict(zip(fields, ann_val))
-    ann_json =jsonify(ann_dict)
-    print(ann_json.data)
+    if request.method == 'POST':
+        print(request.data)
+        return "test"
+    else:
+        ann_val = [1, a_path + a1]
+        ann_dict = dict(zip(fields, ann_val))
+        ann_json =jsonify(ann_dict)
+        # print(ann_json.data)
     return jsonify(flattened_json)
 
 
@@ -93,4 +101,10 @@ def get_annotation2():
     ann_dict = dict(zip(fields, a_path + a2))
     ann_json =jsonify(ann_dict)
     return ann_json
+
+
+@app.route('/api/images/1', methods=['POST'])
+def receive_annotation():
+    return jsonify(flattened_json)
+
 

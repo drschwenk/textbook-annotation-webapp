@@ -80,6 +80,10 @@ class RelationshipAnnotator extends Annotator {
   }
 
   handleClickEvent(event, annotation, arrowPoint, arrowPointType) {
+    console.log(annotation.category);
+    //TODO need to add category setting in place once I have buttons
+    annotation.category = 'definition';
+    // this.handleAnnotationClick(annotation);
   }
   //   if (!this.relationship) {
   //     this.relationship = new RelationshipAnnotation(
