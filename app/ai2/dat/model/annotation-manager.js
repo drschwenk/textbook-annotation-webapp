@@ -62,6 +62,7 @@ class AnnotationManager extends EventEmitter {
     this.annotations = new Map();
     this.idSequence = 0;
     this.current_category_selector= "Header/Topic";
+    this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/annotations/"
   }
   clear() {
     this.annotations.clear();
@@ -216,14 +217,12 @@ class AnnotationManager extends EventEmitter {
   importRemoteAnnotation(imageId, remoteAnnotation, remoteAnnotationMap) {
     var tool_body = window.document.getElementsByTagName('main')[0];
     var body_height = tool_body.clientHeight;
-    var num = ~~(body_height / 59);
-    for(var key in remoteAnnotation){
-      var box_name = key;
-      var annoation_val = remoteAnnotation[key];
-    }
-
+    // for(var key in remoteAnnotation){
+    //   var box_name = key;
+    //   var annoation_val = remoteAnnotation[key];
+    // }
     var o_height = 3247;
-    var bounding_boxes = annoation_val.rectangle;
+    var bounding_boxes = remoteAnnotation.rectangle;
     var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
     var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-10;
     var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+10;
@@ -241,7 +240,7 @@ class AnnotationManager extends EventEmitter {
 
     var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
     var annotation;
-    switch (annoation_val.type) {
+    switch ('text') {
       case AnnotationType.SHAPE:
         annotation = new ShapeAnnotation(this.getNewAnnotationId(AnnotationType.SHAPE),bounds);
         break;
@@ -250,10 +249,10 @@ class AnnotationManager extends EventEmitter {
         break;
       case AnnotationType.TEXT:
         annotation = new TextAnnotation(
-            annoation_val.box_id,
+            remoteAnnotation.box_id,
             bounds,
-            annoation_val.contents,
-            annoation_val.category
+            remoteAnnotation.contents,
+            remoteAnnotation.category
             );
         break;
       case "figure": // skip arrows since they are imported separately
@@ -265,10 +264,10 @@ class AnnotationManager extends EventEmitter {
     }
     
     if (annotation) {
-      annotation.remoteId = annoation_val.box_id;
-      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + annoation_val.box_id;
+      annotation.remoteId = remoteAnnotation.box_id;
+      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + remoteAnnotation.box_id;
       this.importAnnotation(imageId, annotation);
-      remoteAnnotationMap.set(annotation.remoteId, annoation_val.id);
+      remoteAnnotationMap.set(annotation.remoteId, remoteAnnotation.id);
     }
   }
 
@@ -372,20 +371,17 @@ class AnnotationManager extends EventEmitter {
 
   importRemoteAnnotations(image, callback) {
     var am = this;
-    qwest.get("/api/images/" + image.id + "/annotations").then(function(response) {
+    var annotation_url = image.url.replace('jpeg', 'json').replace('page-images', 'annotations');
+    qwest.get(annotation_url).then(function(response) {
       var imported = 0;
       var remoteAnnotationMap = new Map();
       var remoteArrowOriginMap = new Map();
       var remoteArrowDestinationMap = new Map();
-      // for (var vt in response){
-        // console.log(vt);
-        // console.log(response[vt]);
-      // };
-      // am.importAnnotationsFromJson(1, response);
-      response.forEach(function(annotation) {
-        am.importRemoteAnnotation(image.id, annotation, remoteAnnotationMap);
+      var text_boxes = response.text;
+      for(var box in text_boxes){
+        am.importRemoteAnnotation(image.id, text_boxes[box], remoteAnnotationMap);
         imported += 1;
-      });
+      }
       //
       // response.arrows.forEach(function(arrow) {
       //   am.importRemoteArrowAnnotation(image.id, arrow, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);

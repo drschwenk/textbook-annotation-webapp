@@ -11,9 +11,25 @@ class ImageManager extends EventEmitter {
     this.currentImage = undefined;
     this.currentFinishedImageIndex = 0;
     this.setFinishedImageIds([]);
+    this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/page-images/"
   }
   isSupported() {
     return Reader.isSupported;
+  }
+  getUrlParams(){
+    var urlParams;
+    (window.onpopstate = function () {
+      var match,
+          pl     = /\+/g,  // Regex for replacing addition symbol with a space
+          search = /([^&=]+)=?([^&]*)/g,
+          decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+          query  = window.location.search.substring(1);
+
+      urlParams = {};
+      while (match = search.exec(query))
+        urlParams[decode(match[1])] = decode(match[2]);
+    })();
+    return urlParams;
   }
   getTotalFinishedImageCount() {
     return this.finishedImageIds.length;
@@ -51,10 +67,10 @@ class ImageManager extends EventEmitter {
   }
 
   nextImage() {
-    Agent.nextImage(function(image) {
-      this.currentImage = image;
-      this.emit(ImageManagerEvent.SELECTED_IMAGE_CHANGED, this.currentImage);
-    }.bind(this));
+    var image = this.getUrlParams();
+    image.url = this.base_url + image.url;
+    this.currentImage = image;
+    this.emit(ImageManagerEvent.SELECTED_IMAGE_CHANGED, this.currentImage);
     return this;
   }
 

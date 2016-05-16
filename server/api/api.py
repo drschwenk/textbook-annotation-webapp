@@ -85,7 +85,6 @@ def get_image_nodata2():
 @app.route('/api/images/1/annotations', methods=['GET', 'POST'])
 def get_annotation():
     if request.method == 'POST':
-        # labeled_boxes = json.loads(request.data.decode('string-escape'))
         labeled_boxes = json.loads(json.loads(request.data))
         for box in labeled_boxes:
             aj1['text'][box['id']]['category'] = box['category']
@@ -93,11 +92,7 @@ def get_annotation():
             json.dump(aj1, tf)
         return "test"
     else:
-        ann_val = [1, a_path + a1]
-        ann_dict = dict(zip(fields, ann_val))
-        ann_json =jsonify(ann_dict)
-        # print(ann_json.data)
-    return jsonify(flattened_json)
+        return jsonify(flattened_json)
 
 
 @app.route('/api/images/2/annotations', methods=['GET'])

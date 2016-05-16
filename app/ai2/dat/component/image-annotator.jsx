@@ -36,7 +36,6 @@ class ImageAnnotator extends React.Component {
       showRelationLabels: SettingsManager.get(Setting.SHOW_RELATION_LABELS),
       showContainerLabels: SettingsManager.get(Setting.SHOW_CONTAINER_LABELS),
       showTextLabels: SettingsManager.get(Setting.SHOW_TEXT_LABELS),
-
   };
     // This sets up these functions so that they're bound to the current instance, since
     // they're executed as event handlers
@@ -218,6 +217,7 @@ class ImageAnnotator extends React.Component {
     return annotator;
   }
   render() {
+    // console.log(this.state);
     var content;
     if (this.state.loading) {
       content = <LoadingIndicator />;

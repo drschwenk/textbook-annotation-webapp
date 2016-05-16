@@ -41,7 +41,7 @@ class DiagramAnnotationTool extends React.Component {
         event.stopPropagation();
       }
     });
-    ImageManager.loadFinishedImageIds();
+    // ImageManager.loadFinishedImageIds();
   }
   componentWillUnmount() {
     ImageManager.off(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
@@ -76,7 +76,6 @@ class DiagramAnnotationTool extends React.Component {
           onDragOver={this.cancelDragOver}>
         <header className="padded flex-row">
           <h1>Textbook Annotation Tool</h1>
-          <HeaderAnnotationControls />
         </header>
         <main>
           <Messages />
