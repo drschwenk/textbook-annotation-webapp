@@ -2,6 +2,7 @@ from flask import abort, request
 from server import app
 from server import jsonify
 import json
+import pprint
 from subprocess import call
 
 
@@ -34,7 +35,7 @@ with open(a1) as f:
         for obj_name, obj in objs.items():
             obj['type'] = a_type
             flattened_json.append({obj_name: obj})
-    print(flattened_json)
+    # print(flattened_json)
 
 
 @app.route('/api/datasets/1/nextImage', methods=['GET'])
@@ -84,7 +85,12 @@ def get_image_nodata2():
 @app.route('/api/images/1/annotations', methods=['GET', 'POST'])
 def get_annotation():
     if request.method == 'POST':
-        print(request.data)
+        # labeled_boxes = json.loads(request.data.decode('string-escape'))
+        labeled_boxes = json.loads(json.loads(request.data))
+        for box in labeled_boxes:
+            aj1['text'][box['id']]['category'] = box['category']
+        with open('example_annotation.json', 'w') as tf:
+            json.dump(aj1, tf)
         return "test"
     else:
         ann_val = [1, a_path + a1]
