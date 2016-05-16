@@ -41,24 +41,6 @@
     font-weight: bold;
   }
 
-  discussion-label {
-    &:extend(label);
-  }
-  unknown-label {
-    &:extend(label);
-  }
-
-  relation-label {
-    &:extend(label);
-  }
-
-  container-label {
-    &:extend(label);
-  }
-
-  text-label {
-    &:extend(label);
-  }
 
   .btn-add {
     display: block;
@@ -81,7 +63,7 @@
     padding: @spacing-xsm / 2;
     text-transform: none;
     white-space: nowrap;
-    border-radius: 2px;
+    border-radius: 0;
     transition: opacity 100ms linear;
     pointer-events: none;
   }
@@ -168,12 +150,10 @@
 
   .annotation-bounds {
     &:hover {
-      border-color: @green;
-      background: rgba(63, 182, 44, 0.6);
-
-
+      border: 8px dotted @purple;
+      opacity: 1;
       label {
-        background: @green;
+        background: @purple;
       }
 
       arrow-label {

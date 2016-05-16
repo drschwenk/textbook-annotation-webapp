@@ -18,12 +18,12 @@ class AnnotationBounds extends React.Component {
     var zIndex = Math.round(Math.pow(2, 24)/(width * height));
 
     var color_map = new Object();
-    color_map["Header/Topic"] = "#e26622";
+    color_map["Header/Topic"] = "#286a8e";
     color_map["Discussion"] = "#5ea5d9";
-    color_map["Definition"] = "#286a8e";
+    color_map["Definition"] = "#3fb62c";
     color_map["Question"] = "#a92020";
-    color_map["Answer"] = "#3fb62c";
-    color_map["Figure Label"] = "#286a8e";
+    color_map["Answer"] = "#fdea65";
+    color_map["Figure Label"] = "#e26622";
     color_map["Other"] = "#8c9296";
     color_map["unlabeled"] = "#8c9296";
 
