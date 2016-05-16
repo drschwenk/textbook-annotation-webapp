@@ -11,8 +11,8 @@ class CategorySelector extends React.Component {
     }
 
     handleClickEvent(selected_category){
-        console.log(selected_category);
-        console.log(AnnotationManager.getCurrentCategory());
+        AnnotationManager.setCurrentCategory(selected_category);
+        // console.log(AnnotationManager.getCurrentCategory());
     }
 
     render() {

@@ -16,14 +16,32 @@ class AnnotationBounds extends React.Component {
     // created over a smaller one. Using 2^24 as the upper bound
     // assuming we won't have boundary boxes larger than 4096x4096
     var zIndex = Math.round(Math.pow(2, 24)/(width * height));
+
+    var color_map = new Object();
+    color_map["Header/Topic"] = "#e26622";
+    color_map["Discussion"] = "#5ea5d9";
+    color_map["Definition"] = "#286a8e";
+    color_map["Question"] = "#a92020";
+    color_map["Answer"] = "#3fb62c";
+    color_map["Figure Label"] = "#286a8e";
+    color_map["Other"] = "#8c9296";
+    color_map["unlabeled"] = "#8c9296";
+
+    function get_rgb_value(k) {
+      return color_map[k];
+    }
+
     var style = {
       left: this.props.x1 + 'px',
       top: this.props.y1 + 'px',
       width: width + 'px',
       height: height + 'px',
-      zIndex: zIndex
-    };
+      zIndex: zIndex,
+      backgroundColor: get_rgb_value(this.props.category),
+      opacity: 0.3
 
+
+    };
     var label;
     if (this.props.label) {
       label = <label className="shape-id-label">{this.props.label}</label>;
@@ -41,9 +59,8 @@ class AnnotationBounds extends React.Component {
       label = <label className="shape-id-label container-label">{this.props.containerLabel}</label>;
     }
     if (this.props.textLabel) {
-      label = <label className="shape-id-label text-label">{this.props.textLabel}</label>;
+       label = <label className="shape-id-label text-label">{this.props.textLabel}</label>;
     }
-
     var cssClass = 'annotation-bounds';
     if (this.props.className) {
       cssClass += ' ' + this.props.className;

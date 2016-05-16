@@ -15,9 +15,7 @@ const Annotator = require('./annotator.jsx');
 class RelationshipAnnotator extends Annotator {
   constructor(props) {
     super(props);
-
   }
-
   // handleAnnotationClick(annotation) {
   //   if (this.relationship.isRelated(annotation.id)) {
   //     if (this.relationship.source === annotation.id) {
@@ -100,9 +98,10 @@ class RelationshipAnnotator extends Annotator {
   }
 
   handleClickEvent(event, annotation, arrowPoint, arrowPointType) {
-    console.log(annotation.category);
     //TODO need to add category setting in place once I have buttons
-    annotation.category = 'definition';
+    // console.log(annotation.bounds);
+    annotation.category = AnnotationManager.getCurrentCategory();
+    AnnotationManager.addAnnotation(this.props.imageId, annotation);
     // this.handleAnnotationClick(annotation);
   }
   //   if (!this.relationship) {
@@ -125,7 +124,6 @@ class RelationshipAnnotator extends Annotator {
   componentDidMount() {
     super.componentDidMount();
     AnnotationClickManager.activate().clicked(this.handleClickEvent.bind(this));
-    this.setState({current_category_selector: "Definition"});
   }
 
   cancel() {

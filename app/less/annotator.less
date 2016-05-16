@@ -41,10 +41,10 @@
     font-weight: bold;
   }
 
-  arrow-label {
+  discussion-label {
     &:extend(label);
   }
-  shape-label {
+  unknown-label {
     &:extend(label);
   }
 
@@ -71,12 +71,10 @@
 }
 
 .annotation-bounds {
-  border: 2px dotted @red;
   position: absolute;
   z-index: 1;
 
   label {
-    background: @red;
     color: #fff;
     font-size: @font-size-xsm;
     font-weight: bold;
@@ -106,7 +104,6 @@
   text-label {
     &:extend(label);
   }
-
   .relationship-label-list,
   .shape-id-label {
     position: absolute;
@@ -173,6 +170,7 @@
     &:hover {
       border-color: @green;
       background: rgba(63, 182, 44, 0.6);
+
 
       label {
         background: @green;

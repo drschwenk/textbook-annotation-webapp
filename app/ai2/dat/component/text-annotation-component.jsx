@@ -11,17 +11,21 @@ class TextAnnotationComponent extends RelateableComponent {
   }
   render() {
     var label = this.props.annotation.id;
+    var category = this.props.annotation.category;
     // if (this.props.annotation.text) {
     //   label += ': \u201C' + this.props.annotation.text + '\u201D';
     // }
     const cssClass = this.getRelatedCssClass();
     const relationshipLabels = this.renderRelationshipLabels();
+    // console.log(relationshipLabels);
     const bounds = this.props.annotation.bounds.getBoundingRectangle();
+    //          className={cssClass}
+    //          relationshipLabels={relationshipLabels}
+
     return (
       <AnnotationBounds
-          className={cssClass}
           textLabel={label}
-          relationshipLabels={relationshipLabels}
+          category={category}
           onClick={this.onClick}
           x1={bounds.left}
           y1={bounds.top}

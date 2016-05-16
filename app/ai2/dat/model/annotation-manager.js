@@ -151,7 +151,7 @@ class AnnotationManager extends EventEmitter {
     // } else if (annotation instanceof ArrowAnnotation) {
     //   Agent.saveArrow(imageId, annotation);
     // } else {
-    Agent.saveAnnotation(this, imageId, annotation);
+    // Agent.saveAnnotation(this, imageId, annotation);
     // }
     this.emit(AnnotationManagerEvent.ANNOTATION_ADDED, imageId, annotation);
     return this;
@@ -314,8 +314,6 @@ class AnnotationManager extends EventEmitter {
       // });
       for(var type in annotations){
         var annotation = annotations[type];
-        console.log(type);
-        console.log(AnnotationType.TEXT);
         switch (type) {
           // case AnnotationType.SHAPE:
           //   annotation = new ShapeAnnotation(
