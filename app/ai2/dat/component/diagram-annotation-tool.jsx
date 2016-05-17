@@ -64,9 +64,10 @@ class DiagramAnnotationTool extends React.Component {
     var image_id = ImageManager.getCurrentImageId();
     var annotation_map = AnnotationManager.getAnnotations(image_id);
     var annotation_results = AnnotationManager.saveAnnotations(image_id, annotation_map);
-    this.populate_fields('image_id', image_id);
+
     this.populate_fields('results', annotation_results);
     var form = document.forms[0];
+    console.log(form);
     form.submit()
   }
   cancelDragOver(event) {
@@ -74,14 +75,13 @@ class DiagramAnnotationTool extends React.Component {
   }
   getHITParams() {
     var params = ImageManager.getUrlParams();
-    console.log(params);
     return params
   }
   render() {
+    var url_params = this.getHITParams();
+
     var view = this.renderView();
     var sidebar = this.renderCategoryPicker();
-    var url_params = this.getHITParams();
-    var image_id = ImageManager.getCurrentImageId();
     return (
       <div className="diagram-annotation-tool"
           onDragOver={this.cancelDragOver}>
@@ -102,7 +102,7 @@ class DiagramAnnotationTool extends React.Component {
             <form action= "https://workersandbox.mturk.com/mturk/externalSubmit"
                   method="POST">
               <input type="hidden" name="assignmentId" id="myAssignmentId" value={url_params.assignmentId} />
-              <input type="hidden" name="image_id" id="image_id" value = ""/>
+              <input type="hidden" name="image_id" id="image_id" value = {url_params.url}/>
               <input type="hidden" name="results" id="results" value = "" />
             </form>
             <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
