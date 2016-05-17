@@ -56,21 +56,32 @@ class DiagramAnnotationTool extends React.Component {
     var sidebar = <CategorySelector />;
     return sidebar;
   }
+  populate_fields(name, val){
+    var form = document.forms[0];
+    form[name].value=val;
+  }
   saveAndAdvance() {
-    ImageManager.finishCurrentImage();
     var image_id = ImageManager.getCurrentImageId();
     var annotation_map = AnnotationManager.getAnnotations(image_id);
-    AnnotationManager.saveAnnotations(image_id, annotation_map);
-    ImageManager.selectNextImage();
+    var annotation_results = AnnotationManager.saveAnnotations(image_id, annotation_map);
+    this.populate_fields('image_id', image_id);
+    this.populate_fields('results', annotation_results);
+    var form = document.forms[0];
+    form.submit()
   }
-
   cancelDragOver(event) {
     event.preventDefault();
   }
-
+  getHITParams() {
+    var params = ImageManager.getUrlParams();
+    console.log(params);
+    return params
+  }
   render() {
     var view = this.renderView();
     var sidebar = this.renderCategoryPicker();
+    var url_params = this.getHITParams();
+    var image_id = ImageManager.getCurrentImageId();
     return (
       <div className="diagram-annotation-tool"
           onDragOver={this.cancelDragOver}>
@@ -88,6 +99,12 @@ class DiagramAnnotationTool extends React.Component {
             <img src="assets/images/logo@2x.png" width="33" height="25" alt="AI2" />
           </a>
           <div className="flex-align-right">
+            <form action= "https://workersandbox.mturk.com/mturk/externalSubmit"
+                  method="POST">
+              <input type="hidden" name="assignmentId" id="myAssignmentId" value={url_params.assignmentId} />
+              <input type="hidden" name="image_id" id="image_id" value = ""/>
+              <input type="hidden" name="results" id="results" value = "" />
+            </form>
             <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
           </div>
         </footer>
@@ -95,7 +112,10 @@ class DiagramAnnotationTool extends React.Component {
     );
   }
 }
+//            <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
 
+// <form action="http://www.mturk.com/mturk/externalSubmit"
 module.exports = DiagramAnnotationTool;
+
 
 
