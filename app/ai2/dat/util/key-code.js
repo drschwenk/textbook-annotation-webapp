@@ -1,12 +1,14 @@
 'use strict';
 
 const KeyCode = {
-  ARROW_LEFT: 37,
-  ARROW_UP: 38,
-  ARROW_RIGHT: 39,
-  ARROW_DOWN: 40,
-  ENTER: 13,
-  ESCAPE: 27
+  Enter: 13,
+  Header_Topic: 72,
+  Discussion: 73,
+  Definition: 69,
+  Question: 81,
+  Answer: 65,
+  Figure_Lable:70,
+  Other: 79
 };
 Object.freeze(KeyCode);
 

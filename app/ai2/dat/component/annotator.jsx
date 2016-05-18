@@ -23,7 +23,7 @@ class Annotator extends React.Component {
   }
   componentDidMount() {
     this.cancel = this.cancel.bind(this);
-    KeyMaster.on(KeyCode.ESCAPE, this.cancel);
+    // KeyMaster.on(KeyCode.ESCAPE, this.cancel);
   }
   componentWillUnmount() {
     KeyMaster.off(KeyCode.ESCAPE);

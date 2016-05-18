@@ -25,23 +25,38 @@ class DiagramAnnotationTool extends React.Component {
       this.setState({ hasImages: true });
     }
   }
+  set_header(){
+    AnnotationManager.setCurrentCategory('Header/Topic');
+  }
+  set_discussion(){
+    AnnotationManager.setCurrentCategory('Discussion');
+  }
+  set_definition(){
+    AnnotationManager.setCurrentCategory('Definition');
+  }
+  set_question(){
+    AnnotationManager.setCurrentCategory('Question');
+  }
+  set_answer(){
+    AnnotationManager.setCurrentCategory('Answer');
+  }
+  set_fl(){
+    AnnotationManager.setCurrentCategory('Figure Label');
+  }
+  set_other(){
+    AnnotationManager.setCurrentCategory('Other');
+  }
   componentDidMount() {
     ImageManager.on(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
 
-    KeyMaster.on(KeyCode.ARROW_RIGHT, function(event) {
-      if (ImageManager.getTotalFinishedImageCount() > 1) {
-        ImageManager.selectNextFinshedImage();
-        event.stopPropagation();
-      }
-    });
-
-    KeyMaster.on(KeyCode.ARROW_LEFT, function(event) {
-      if (ImageManager.getTotalFinishedImageCount() > 1) {
-        ImageManager.selectPreviousFinshedImage();
-        event.stopPropagation();
-      }
-    });
-    // ImageManager.loadFinishedImageIds();
+    KeyMaster.on(KeyCode.Enter, this.saveAndAdvance);
+    KeyMaster.on(KeyCode.Other, this.set_other);
+    KeyMaster.on(KeyCode.Header_Topic, this.set_header);
+    KeyMaster.on(KeyCode.Discussion, this.set_discussion);
+    KeyMaster.on(KeyCode.Definition,this.set_definition);
+    KeyMaster.on(KeyCode.Question, this.set_question);
+    KeyMaster.on(KeyCode.Answer, this.set_answer);
+    KeyMaster.on(KeyCode.Figure_Lable, this.set_fl);
   }
   componentWillUnmount() {
     ImageManager.off(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
@@ -67,7 +82,6 @@ class DiagramAnnotationTool extends React.Component {
 
     this.populate_fields('results', annotation_results);
     var form = document.forms[0];
-    console.log(form);
     form.submit()
   }
   cancelDragOver(event) {

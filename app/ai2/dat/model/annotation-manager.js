@@ -80,7 +80,6 @@ class AnnotationManager extends EventEmitter {
   resetAnnotations(imageId) {
     this.annotations.set(imageId, new AnnotationCollection());
   }
-
   getAnnotations(imageId) {
     return this.annotations.get(imageId) || new AnnotationCollection();
   }
