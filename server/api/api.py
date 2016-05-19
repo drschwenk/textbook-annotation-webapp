@@ -2,6 +2,7 @@ from flask import abort, request
 from server import app
 from server import jsonify
 import json
+import requests as rq
 import pprint
 from subprocess import call
 import utils.url_gen as url_builder
@@ -33,7 +34,6 @@ a2 = 'Spectrum_Science_Grade_7_40.json'
 fields = ['id', 'url']
 with open(a1) as f:
     aj1 = json.load(f)
-    # print(aj1)
     flattened_json = []
     for a_type, objs in aj1.items():
         for obj_name, obj in objs.items():
@@ -41,6 +41,14 @@ with open(a1) as f:
             flattened_json.append({obj_name: obj})
     # print(flattened_json)
 
+
+def flatten_json(annotations):
+    flattened_json = []
+    for a_type, objs in annotations.items():
+        for obj_name, obj in objs.items():
+            obj['type'] = a_type
+            flattened_json.append({obj_name: obj})
+    return flattened_json
 
 @app.route('/api/datasets/1/nextImage', methods=['GET'])
 def get_image():
@@ -92,30 +100,30 @@ def get_annotation():
     if request.method == 'POST':
         # labeled_boxes = json.loads(request.data.decode('string-escape'))
         labeled_boxes = json.loads(json.loads(request.data))
-        for box in labeled_boxes:
-            aj1['text'][box['id']]['category'] = box['category']
-        with open('example_annotation.json', 'w') as tf:
-            json.dump(aj1, tf)
+        # for box in labeled_boxes:
+        #     aj1['text'][box['id']]['category'] = box['category']
+        # with open('example_annotation.json', 'w') as tf:
+        #     json.dump(aj1, tf)
         return "test"
     else:
-        ann_val = [1, a_path + a1]
-        ann_dict = dict(zip(fields, ann_val))
-        ann_json =jsonify(ann_dict)
-        # print(ann_json.data)
-    return jsonify(flattened_json)
+        response = rq.get(a_path + a1)
+        ann_json = flatten_json(json.loads(response.content))
+    return jsonify(ann_json)
 
 
 @app.route('/api/images/2/annotations', methods=['GET'])
 def get_annotation2():
-    ann_val = [2, a_path + a2]
-    ann_dict = dict(zip(fields, ann_val))
-    ann_dict = dict(zip(fields, a_path + a2))
-    ann_json =jsonify(ann_dict)
-    return ann_json
-
-
-@app.route('/api/images/1', methods=['POST'])
-def receive_annotation():
-    return jsonify(flattened_json)
+    if request.method == 'POST':
+        # labeled_boxes = json.loads(request.data.decode('string-escape'))
+        labeled_boxes = json.loads(json.loads(request.data))
+        for box in labeled_boxes:
+            aj2['text'][box['id']]['category'] = box['category']
+        with open('example_annotation.json', 'w') as tf:
+            json.dump(aj2, tf)
+        return "test"
+    else:
+        response = rq.get(a_path + a2)
+        ann_json = flatten_json(json.loads(response.content))
+    return jsonify(ann_json)
 
 
