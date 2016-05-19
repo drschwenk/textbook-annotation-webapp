@@ -1,4 +1,4 @@
-# AI2 Textbook Annotation Tool (DAT)
+# AI2 Textbook Annotation Tool (TAT)
 
 Allows a user to annotate text blobs identified in scanned textbook pages. Assignment to one of several pre-defined categories is possible.
 
