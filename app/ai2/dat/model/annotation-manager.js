@@ -405,7 +405,7 @@ class AnnotationManager extends EventEmitter {
       //   imported += 1;
       // });
 
-       MessageManager.success(imported + ' annotations imported.');
+       // MessageManager.success(imported + ' annotations imported.');
       callback();
     }).catch(function(e) {
       MessageManager.warn("Error loading imageId: " + image.id + " " + e);
@@ -437,7 +437,7 @@ class AnnotationManager extends EventEmitter {
               }.bind(this));
             }
             if (imported > 0) {
-              MessageManager.success(imported + ' annotations imported.');
+              // MessageManager.success(imported + ' annotations imported.');
             }
           }
         }.bind(this),
