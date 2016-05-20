@@ -25,20 +25,15 @@ class DiagramAnnotationTool extends React.Component {
       this.setState({ hasImages: true });
     }
   }
-  componentDidMount() {
+  advanceImage(){
+    ImageManager.selectNextFinishedImage();
+  }
+  retardImage(){
+    ImageManager.selectPreviousFinishedImage();
+  }  componentDidMount() {
     ImageManager.on(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
-    KeyMaster.on(KeyCode.ARROW_RIGHT, function(event) {
-      if (ImageManager.getTotalFinishedImageCount() > 1) {
-        ImageManager.selectNextFinshedImage();
-        event.stopPropagation();
-      }
-    });
-    KeyMaster.on(KeyCode.ARROW_LEFT, function(event) {
-      if (ImageManager.getTotalFinishedImageCount() > 1) {
-        ImageManager.selectPreviousFinshedImage();
-        event.stopPropagation();
-      }
-    });
+    KeyMaster.on(KeyCode.ARROW_RIGHT, this.advanceImage);
+    KeyMaster.on(KeyCode.ARROW_LEFT, this.retardImage);
     ImageManager.loadFinishedImageIds();
   }
   componentWillUnmount() {
