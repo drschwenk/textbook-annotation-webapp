@@ -75,7 +75,7 @@ class DiagramAnnotationTool extends React.Component {
       <div className="diagram-annotation-tool"
           onDragOver={this.cancelDragOver}>
         <header className="padded flex-row">
-          <h1>Textbook Annotation Tool</h1>
+          <h1>Textbook Annotation Review Tool</h1>
           <HeaderAnnotationControls />
         </header>
         <main>

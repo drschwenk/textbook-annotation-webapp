@@ -10,17 +10,8 @@ app = Flask(__name__, static_folder='../build', static_url_path='', template_fol
 # cors = CORS(app)
 
 
-class MongoJsonEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, (datetime.datetime, datetime.date)):
-            return obj.isoformat()
-        elif isinstance(obj, ObjectId):
-            return str(obj)
-        return json.JSONEncoder.default(self, obj)
-
-
 def jsonify(*args, **kwargs):
-    return Response(json.dumps(*args, cls=MongoJsonEncoder), mimetype='application/json', **kwargs)
+    return Response(json.dumps(*args, cls=json.JSONEncoder), mimetype='application/json', **kwargs)
 
 
 @app.errorhandler(404)
