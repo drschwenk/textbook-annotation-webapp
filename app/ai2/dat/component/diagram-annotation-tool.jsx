@@ -27,14 +27,12 @@ class DiagramAnnotationTool extends React.Component {
   }
   componentDidMount() {
     ImageManager.on(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
-
     KeyMaster.on(KeyCode.ARROW_RIGHT, function(event) {
       if (ImageManager.getTotalFinishedImageCount() > 1) {
         ImageManager.selectNextFinshedImage();
         event.stopPropagation();
       }
     });
-
     KeyMaster.on(KeyCode.ARROW_LEFT, function(event) {
       if (ImageManager.getTotalFinishedImageCount() > 1) {
         ImageManager.selectPreviousFinshedImage();
@@ -63,11 +61,9 @@ class DiagramAnnotationTool extends React.Component {
     AnnotationManager.saveAnnotations(image_id, annotation_map);
     ImageManager.selectNextImage();
   }
-
   cancelDragOver(event) {
     event.preventDefault();
   }
-
   render() {
     var view = this.renderView();
     var sidebar = this.renderCategoryPicker();
@@ -77,26 +73,20 @@ class DiagramAnnotationTool extends React.Component {
         <header className="padded flex-row">
           <h1>Textbook Annotation Review Tool</h1>
           <HeaderAnnotationControls />
+          <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-right">
+            <strong>Made By:</strong>
+            <img src="assets/images/logo@2x.png" width="33" height="25" alt="AI2" />
+          </a>
         </header>
         <main>
           <Messages />
           {sidebar}
           {view}
         </main>
-        <footer className="padded flex-row">
-          <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-left">
-            <strong>Made By:</strong>
-            <img src="assets/images/logo@2x.png" width="33" height="25" alt="AI2" />
-          </a>
-          <div className="flex-align-right">
-            <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
-          </div>
-        </footer>
       </div>
     );
   }
 }
 
 module.exports = DiagramAnnotationTool;
-
 
