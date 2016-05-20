@@ -40,6 +40,11 @@ class CategorySelector extends React.Component {
                 <div className="annotation-pane-dialog-content">
                     <button onClick={this.handleClickEvent.bind(null, "Other")} className="btn-gray">Other</button>
                 </div>
+                <hr> </hr>
+                <hr> </hr>
+                <div className="annotation-pane-dialog-content">
+                    <button onClick={this.saveAndAdvance} className="btn-green">Submit Results</button>
+                </div>
             </div>
     );
     }

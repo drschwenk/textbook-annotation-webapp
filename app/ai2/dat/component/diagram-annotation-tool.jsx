@@ -101,17 +101,16 @@ class DiagramAnnotationTool extends React.Component {
           onDragOver={this.cancelDragOver}>
         <header className="padded flex-row">
           <h1>Textbook Annotation Tool</h1>
+          <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-right">
+            <strong>Made By:</strong>
+            <img src="assets/images/logo@2x.png" width="33" height="25" alt="AI2" />
+          </a>
         </header>
         <main>
           <Messages />
           {sidebar}
           {view}
         </main>
-        <footer className="padded flex-row">
-          <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-left">
-            <strong>Made By:</strong>
-            <img src="assets/images/logo@2x.png" width="33" height="25" alt="AI2" />
-          </a>
           <div className="flex-align-right">
             <form action= "https://workersandbox.mturk.com/mturk/externalSubmit"
                   method="POST">
@@ -119,9 +118,7 @@ class DiagramAnnotationTool extends React.Component {
               <input type="hidden" name="image_id" id="image_id" value = {url_params.url}/>
               <input type="hidden" name="results" id="results" value = "" />
             </form>
-            <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
           </div>
-        </footer>
       </div>
     );
   }
