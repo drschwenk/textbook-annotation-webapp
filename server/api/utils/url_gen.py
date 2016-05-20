@@ -20,7 +20,13 @@ def form_hit_url(book_name, page_n):
     return full_url
 
 
-def make_book_group_urls(book_groups, book_group, ranges):
+def form_image_url(book_name, page_n, ):
+    book_name_no_ext = book_name.replace('.pdf', '_')
+    image_base = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/page-images/'
+    return image_base + book_name_no_ext + str(page_n) + '.jpeg'
+
+
+def make_book_group_urls(book_groups, book_group, ranges, url_former):
     def get_start_end(start_page, end_page):
         return start_page, end_page
 
@@ -28,5 +34,5 @@ def make_book_group_urls(book_groups, book_group, ranges):
     for tb in book_groups[book_group]:
         start, end = get_start_end(*ranges[tb])
         for page_n in range(start, end):
-            group_urls.append(form_hit_url(tb, page_n))
+            group_urls.append(url_former(tb, page_n))
     return group_urls

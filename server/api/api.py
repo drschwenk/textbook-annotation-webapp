@@ -12,10 +12,10 @@ api = Api(app)
 
 book_groups, range_lookup = url_builder.load_book_info()
 
-group_urls = url_builder.make_book_group_urls(book_groups, 'daily_sci', range_lookup)
-group_urls = group_urls[:4]
+group_image_urls = url_builder.make_book_group_urls(book_groups, 'daily_sci', range_lookup, url_builder.form_image_url)
+group_image_urls = group_image_urls[:4]
 
-pages_to_review_idx = range(1, len(group_urls)+1)
+pages_to_review_idx = range(1, len(group_image_urls)+1)
 
 # i_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/page-images/'
 # a_path = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/annotations/'
@@ -29,7 +29,7 @@ class Image(Resource):
     fields = ['id', 'url']
 
     def get(self, image_idx):
-        return_items = [image_idx, group_urls[image_idx]]
+        return_items = [image_idx, group_image_urls[image_idx]]
         items_json = jsonify(dict(zip(self.fields, return_items)))
         return items_json
 
@@ -50,7 +50,7 @@ class Annotation(Resource):
         return url.replace('page-images', 'annotations').replace('jpeg', 'json')
 
     def get(self, image_idx):
-        image_url = group_urls[image_idx]
+        image_url = group_image_urls[image_idx]
         annotation_url = self.transform_url(image_url)
         remote_annotation = rq.get(annotation_url)
         annotation_json = self.flatten_json(json.loads(remote_annotation.content))
@@ -82,8 +82,6 @@ def get_finished_image():
 #     img_val = [1, i_path + i1]
 #     img_dict = dict(zip(fields, img_val))
 #     img_json =jsonify(img_dict)
-#     # print(dir(img_json))
-#     # print(img_json.data)
 #     return img_json
 #
 
