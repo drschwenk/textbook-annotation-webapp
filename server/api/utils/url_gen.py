@@ -1,5 +1,5 @@
 import pickle
-import os
+import random
 
 
 def load_book_info():
@@ -36,3 +36,9 @@ def make_book_group_urls(book_groups, book_group, ranges, url_former):
         for page_n in range(start, end):
             group_urls.append(url_former(tb, page_n))
     return group_urls
+
+
+def random_subset(urls, num_view):
+    random_sample_idxs = random.sample(range(len(urls)), num_view)
+    random_sample = [urls[i] for i in sorted(random_sample_idxs)]
+    return random_sample
