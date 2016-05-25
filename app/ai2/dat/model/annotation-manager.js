@@ -216,18 +216,17 @@ class AnnotationManager extends EventEmitter {
   importRemoteAnnotation(imageId, remoteAnnotation, remoteAnnotationMap) {
     var tool_body = window.document.getElementsByTagName('main')[0];
     var body_height = tool_body.clientHeight;
-    var num = ~~(body_height / 59);
     for(var key in remoteAnnotation){
       var box_name = key;
-      var annoation_val = remoteAnnotation[key];
+      var annotation_val = remoteAnnotation[key];
     }
 
-    var o_height = 3247;
-    var bounding_boxes = annoation_val.rectangle;
-    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
-    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-10;
-    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+10;
-    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+10;
+    var o_height = 2158;
+    var bounding_boxes = annotation_val.rectangle;
+    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-5;
+    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-5;
+    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+5;
+    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+5;
 
     // var upscale_width = (c3 - c1)*1.05;
     // var upscale_height = (c4 - c2)*1.05;
@@ -241,7 +240,7 @@ class AnnotationManager extends EventEmitter {
 
     var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
     var annotation;
-    switch (annoation_val.type) {
+    switch (annotation_val.type) {
       case AnnotationType.SHAPE:
         annotation = new ShapeAnnotation(this.getNewAnnotationId(AnnotationType.SHAPE),bounds);
         break;
@@ -250,10 +249,10 @@ class AnnotationManager extends EventEmitter {
         break;
       case AnnotationType.TEXT:
         annotation = new TextAnnotation(
-            annoation_val.box_id,
+            annotation_val.box_id,
             bounds,
-            annoation_val.contents,
-            annoation_val.category
+            annotation_val.contents,
+            annotation_val.category
             );
         break;
       case "figure": // skip arrows since they are imported separately
@@ -265,10 +264,10 @@ class AnnotationManager extends EventEmitter {
     }
     
     if (annotation) {
-      annotation.remoteId = annoation_val.box_id;
-      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + annoation_val.box_id;
+      annotation.remoteId = annotation_val.box_id;
+      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + annotation_val.box_id;
       this.importAnnotation(imageId, annotation);
-      remoteAnnotationMap.set(annotation.remoteId, annoation_val.id);
+      remoteAnnotationMap.set(annotation.remoteId, annotation_val.id);
     }
   }
 

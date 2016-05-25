@@ -22,7 +22,7 @@ def form_hit_url(book_name, page_n):
 
 def form_image_url(book_name, page_n, ):
     book_name_no_ext = book_name.replace('.pdf', '_')
-    image_base = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/page-images/'
+    image_base = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/smaller-page-images/'
     return image_base + book_name_no_ext + str(page_n) + '.jpeg'
 
 
@@ -31,7 +31,8 @@ def make_book_group_urls(book_groups, book_group, ranges, url_former):
         return start_page, end_page
 
     group_urls = []
-    for tb in book_groups[book_group]:
+    # looking at last book for testing
+    for tb in book_groups[book_group][-1:]:
         start, end = get_start_end(*ranges[tb])
         for page_n in range(start, end):
             group_urls.append(url_former(tb, page_n))
@@ -40,5 +41,5 @@ def make_book_group_urls(book_groups, book_group, ranges, url_former):
 
 def random_subset(urls, num_view):
     random_sample_idxs = random.sample(range(len(urls)), num_view)
-    random_sample = [urls[i] for i in sorted(random_sample_idxs)]
+    random_sample = [urls[i] for i in random_sample_idxs]
     return random_sample

@@ -10,7 +10,6 @@ api = Api(app)
 book_groups, range_lookup = url_builder.load_book_info()
 
 group_image_urls = url_builder.make_book_group_urls(book_groups, 'daily_sci', range_lookup, url_builder.form_image_url)
-# group_image_urls = group_image_urls[:5]
 group_image_urls = url_builder.random_subset(group_image_urls, 100)
 
 pages_to_review_idx = range(1, len(group_image_urls)+1)
@@ -38,13 +37,23 @@ class Annotation(Resource):
         return flattened_json
 
     def transform_url(self, url):
-        return url.replace('page-images', 'annotations').replace('jpeg', 'json')
+        return url.replace('smaller-page-images', 'unmerged_annotations').replace('jpeg', 'json')
+
+    def import_local(self, url):
+        base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/'
+        anno_file = url.rsplit('/',  1)[1].replace('jpeg', 'json')
+        file_path = base_path + anno_file
+        with open(file_path, 'r') as f:
+            local_annotations = json.load(f)
+        return local_annotations
 
     def get(self, image_idx):
         image_url = group_image_urls[image_idx]
-        annotation_url = self.transform_url(image_url)
-        remote_annotation = rq.get(annotation_url)
-        annotation_json = self.flatten_json(json.loads(remote_annotation.content))
+        # annotation_url = self.transform_url(image_url)
+        # remote_annotation = rq.get(annotation_url)
+        # annotation_json = self.flatten_json(json.loads(remote_annotation.content))
+        raw_annotation_json = self.import_local(image_url)
+        annotation_json = self.flatten_json(raw_annotation_json)
         return annotation_json
 
     def put(self, image_idx):
