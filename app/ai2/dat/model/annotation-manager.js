@@ -62,7 +62,7 @@ class AnnotationManager extends EventEmitter {
     this.annotations = new Map();
     this.idSequence = 0;
     this.current_category_selector= "Header/Topic";
-    this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/annotations/"
+    this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/"
   }
   clear() {
     this.annotations.clear();
@@ -234,7 +234,7 @@ class AnnotationManager extends EventEmitter {
     //   var box_name = key;
     //   var annoation_val = remoteAnnotation[key];
     // }
-    var o_height = 3247;
+    var o_height = 2140;
     var bounding_boxes = remoteAnnotation.rectangle;
     var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
     var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-10;
@@ -384,7 +384,7 @@ class AnnotationManager extends EventEmitter {
 
   importRemoteAnnotations(image, callback) {
     var am = this;
-    var annotation_url = image.url.replace('jpeg', 'json').replace('page-images', 'annotations');
+    var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'merged-annotations');
     qwest.get(annotation_url).then(function(response) {
       var imported = 0;
       var remoteAnnotationMap = new Map();
