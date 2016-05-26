@@ -32,7 +32,7 @@ def make_book_group_urls(book_groups, book_group, ranges, url_former):
 
     group_urls = []
     # looking at last book for testing
-    for tb in book_groups[book_group][-1:]:
+    for tb in book_groups[book_group]:
         start, end = get_start_end(*ranges[tb])
         for page_n in range(start, end):
             group_urls.append(url_former(tb, page_n))

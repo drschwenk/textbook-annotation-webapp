@@ -11,7 +11,6 @@ book_groups, range_lookup = url_builder.load_book_info()
 
 group_image_urls = url_builder.make_book_group_urls(book_groups, 'daily_sci', range_lookup, url_builder.form_image_url)
 group_image_urls = url_builder.random_subset(group_image_urls, 100)
-
 pages_to_review_idx = range(1, len(group_image_urls)+1)
 
 

@@ -32,12 +32,11 @@ class CategorySelector extends React.Component {
                     <button onClick={this.handleClickEvent.bind(null, "Question")} className="btn-red">Question</button>
                 </div>
                 <div className="annotation-pane-dialog-content">
-                    <button onClick={this.handleClickEvent.bind(null, "Answer")} className="btn-yellow">Answer</button>
-                </div>
-                <div className="annotation-pane-dialog-content">
                     <button onClick={this.handleClickEvent.bind(null, "Figure Label")} className="btn-orange">Figure Label</button>
                 </div>
                 <div className="annotation-pane-dialog-content">
+                    <button onClick={this.handleClickEvent.bind(null, "Answer")} className="btn-yellow">Answer Key</button>
+                </div>                <div className="annotation-pane-dialog-content">
                     <button onClick={this.handleClickEvent.bind(null, "Other")} className="btn-gray">Other</button>
                 </div>
                 <hr> </hr>

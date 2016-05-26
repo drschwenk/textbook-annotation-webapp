@@ -38,7 +38,7 @@ class AnnotationBounds extends React.Component {
       height: height + 'px',
       zIndex: zIndex,
       backgroundColor: get_rgb_value(this.props.category),
-      opacity: 0.3
+      opacity: 0.5
 
 
     };

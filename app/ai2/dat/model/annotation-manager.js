@@ -221,12 +221,12 @@ class AnnotationManager extends EventEmitter {
       var annotation_val = remoteAnnotation[key];
     }
 
-    var o_height = 2158;
+    var o_height = 2140;
     var bounding_boxes = annotation_val.rectangle;
-    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-5;
-    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-5;
-    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+5;
-    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+5;
+    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height);
+    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height);
+    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height);
+    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height);
 
     // var upscale_width = (c3 - c1)*1.05;
     // var upscale_height = (c4 - c2)*1.05;
