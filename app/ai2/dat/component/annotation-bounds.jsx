@@ -65,12 +65,12 @@ class AnnotationBounds extends React.Component {
     if (this.props.className) {
       cssClass += ' ' + this.props.className;
     }
+    //        {label}
 
     return (
       <div className={cssClass}
           onClick={this.props.onClick}
           style={style}>
-        {label}
         {this.props.relationshipLabels}
         {this.props.overlay}
       </div>

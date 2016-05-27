@@ -62,12 +62,13 @@ class DiagramAnnotationTool extends React.Component {
   render() {
     var view = this.renderView();
     var sidebar = this.renderCategoryPicker();
+    //          <HeaderAnnotationControls />
+
     return (
       <div className="diagram-annotation-tool"
           onDragOver={this.cancelDragOver}>
         <header className="padded flex-row">
           <h1>Textbook Annotation Review Tool</h1>
-          <HeaderAnnotationControls />
           <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-right">
             <strong>Made By:</strong>
             <img src="assets/images/logo@2x.png" width="33" height="25" alt="AI2" />
