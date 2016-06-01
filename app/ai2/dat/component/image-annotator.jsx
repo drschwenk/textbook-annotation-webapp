@@ -217,7 +217,6 @@ class ImageAnnotator extends React.Component {
     return annotator;
   }
   render() {
-    // console.log(this.state);
     var content;
     if (this.state.loading) {
       content = <LoadingIndicator />;

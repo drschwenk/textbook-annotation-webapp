@@ -1,6 +1,9 @@
 'use strict';
 
 const React = require('react');
+const Radium = require('radium');
+
+const AnnotationManager = require('../model/annotation-manager')
 
 class AnnotationBounds extends React.Component {
   constructor(props) {
@@ -9,7 +12,6 @@ class AnnotationBounds extends React.Component {
   render() {
     const width = this.props.x2 - this.props.x1;
     const height = this.props.y2 - this.props.y1;
-
     // applying the rule that annotations with a greater area
     // should have a lower z-index, this continues to allow
     // annotations to be selected if a larger boundary box is
@@ -24,24 +26,33 @@ class AnnotationBounds extends React.Component {
     color_map["Question"] = "#a92020";
     color_map["Answer"] = "#fdea65";
     color_map["Figure Label"] = "#e26622";
-    color_map["Other"] = "#8c9296";
     color_map["unlabeled"] = "#8c9296";
 
     function get_rgb_value(k) {
       return color_map[k];
     }
+    function convertHex(hex_color, opacity){
+      var hex_color = hex_color.replace('#','');
+      var red = parseInt(hex_color.substring(0,2), 16);
+      var green = parseInt(hex_color.substring(2,4), 16);
+      var blue = parseInt(hex_color.substring(4,6), 16);
 
-    var style = {
-      left: this.props.x1 + 'px',
-      top: this.props.y1 + 'px',
-      width: width + 'px',
-      height: height + 'px',
-      zIndex: zIndex,
-      backgroundColor: get_rgb_value(this.props.category),
-      opacity: 0.3
-
-
-    };
+      var color_with_trans = 'rgba('+red+','+green+','+blue+','+opacity+')';
+      return color_with_trans;
+    }
+    var styles = {
+          base: {
+            left: this.props.x1 + 'px',
+            top: this.props.y1 + 'px',
+            width: width + 'px',
+            height: height + 'px',
+            zIndex: zIndex,
+            backgroundColor: convertHex(get_rgb_value(this.props.category), 0.2),
+            ':hover': {
+              border: "8px dotted " + convertHex(get_rgb_value(AnnotationManager.getCurrentCategory()), 0.8)
+            }
+          }
+      };
     var label;
     if (this.props.label) {
       label = <label className="shape-id-label">{this.props.label}</label>;
@@ -69,7 +80,7 @@ class AnnotationBounds extends React.Component {
     return (
       <div className={cssClass}
           onClick={this.props.onClick}
-          style={style}>
+          style={[styles.base, styles[this.props.kind]]}>
         {label}
         {this.props.relationshipLabels}
         {this.props.overlay}
@@ -78,4 +89,4 @@ class AnnotationBounds extends React.Component {
   }
 }
 
-module.exports = AnnotationBounds;
+module.exports = Radium(AnnotationBounds);

@@ -10,7 +10,8 @@ class TextAnnotationComponent extends RelateableComponent {
     super(props);
   }
   render() {
-    var label = this.props.annotation.id;
+    // var label = this.props.annotation.id;
+    var label = null 
     var category = this.props.annotation.category;
     // if (this.props.annotation.text) {
     //   label += ': \u201C' + this.props.annotation.text + '\u201D';

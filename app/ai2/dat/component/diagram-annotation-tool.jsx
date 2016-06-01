@@ -79,10 +79,9 @@ class DiagramAnnotationTool extends React.Component {
     var image_id = ImageManager.getCurrentImageId();
     var annotation_map = AnnotationManager.getAnnotations(image_id);
     var annotation_results = AnnotationManager.saveAnnotations(image_id, annotation_map);
-
     this.populate_fields('results', annotation_results);
     var form = document.forms[0];
-    form.submit()
+    form.submit();
   }
   cancelDragOver(event) {
     event.preventDefault();
@@ -93,14 +92,14 @@ class DiagramAnnotationTool extends React.Component {
   }
   render() {
     var url_params = this.getHITParams();
-
     var view = this.renderView();
     var sidebar = this.renderCategoryPicker();
     return (
       <div className="diagram-annotation-tool"
           onDragOver={this.cancelDragOver}>
         <header className="padded flex-row">
-          <h1>Textbook Annotation Tool</h1>
+          <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
+          <h1 className=" flex-align-right">Textbook Annotation Tool</h1>
           <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-right">
             <strong>Made By:</strong>
             <img src="assets/images/logo@2x.png" width="33" height="25" alt="AI2" />
@@ -123,7 +122,6 @@ class DiagramAnnotationTool extends React.Component {
     );
   }
 }
-//            <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
 
 // <form action="http://www.mturk.com/mturk/externalSubmit"
 module.exports = DiagramAnnotationTool;
