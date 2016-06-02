@@ -10,8 +10,9 @@ api = Api(app)
 book_groups, range_lookup = url_builder.load_book_info()
 
 group_image_urls = url_builder.make_book_group_urls(book_groups, 'daily_sci', range_lookup, url_builder.form_image_url)
-group_image_urls = url_builder.random_subset(group_image_urls, 100)
-pages_to_review_idx = range(1, len(group_image_urls)+1)
+# group_image_urls = url_builder.random_subset(group_image_urls, 100)
+group_image_urls = group_image_urls[510:515]
+pages_to_review_idx = range(1, len(group_image_urls) + 1)
 
 
 class Image(Resource):
@@ -39,7 +40,7 @@ class Annotation(Resource):
         return url.replace('smaller-page-images', 'unmerged_annotations').replace('jpeg', 'json')
 
     def import_local(self, url):
-        base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/'
+        base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/labeled-annotations/'
         anno_file = url.rsplit('/',  1)[1].replace('jpeg', 'json')
         file_path = base_path + anno_file
         with open(file_path, 'r') as f:
