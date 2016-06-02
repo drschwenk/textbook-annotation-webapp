@@ -20,12 +20,12 @@ class AnnotationBounds extends React.Component {
     var zIndex = Math.round(Math.pow(2, 24)/(width * height));
 
     var color_map = new Object();
-    color_map["Header/Topic"] = "#286a8e";
-    color_map["Discussion"] = "#5ecbd9";
+    color_map["Header/Topic"] = "#e77423";
+    color_map["Discussion"] = "#286a8e";
     color_map["Definition"] = "#3fb62c";
     color_map["Question"] = "#a92020";
     color_map["Answer"] = "#BA70CC";
-    color_map["Figure Label"] = "#e2b522";
+    color_map["Figure Label"] = "#e7d323";
     color_map["unlabeled"] = "#8c9296";
 
     function get_rgb_value(k) {
@@ -47,7 +47,7 @@ class AnnotationBounds extends React.Component {
             width: width + 'px',
             height: height + 'px',
             zIndex: zIndex,
-            backgroundColor: convertHex(get_rgb_value(this.props.category), 0.25),
+            backgroundColor: convertHex(get_rgb_value(this.props.category), 0.30),
             ':hover': {
               border: "8px dotted " + convertHex(get_rgb_value(AnnotationManager.getCurrentCategory()), 0.8)
             }

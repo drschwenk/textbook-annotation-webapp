@@ -17,12 +17,12 @@ class CategoryButton extends React.Component {
 
     render() {
       var color_map = new Object();
-      color_map["Header/Topic"] = "#286a8e";
-      color_map["Discussion"] = "#5ecbd9";
+      color_map["Header/Topic"] = "#e77423";
+      color_map["Discussion"] = "#286a8e";
       color_map["Definition"] = "#3fb62c";
       color_map["Question"] = "#a92020";
       color_map["Answer"] = "#BA70CC";
-      color_map["Figure Label"] = "#e2b522";
+      color_map["Figure Label"] = "#e7d323";
       color_map["unlabeled"] = "#8c9296";
 
       function get_rgb_value(k) {
@@ -43,7 +43,7 @@ class CategoryButton extends React.Component {
                 border: "4px solid #1E1E1E"
             },
             not_selected: {
-                background: convertHex(get_rgb_value(this.props.category), 0.6),
+                background: convertHex(get_rgb_value(this.props.category), 0.85),
             }
         };
         if (this.props.category === AnnotationManager.getCurrentCategory()){
