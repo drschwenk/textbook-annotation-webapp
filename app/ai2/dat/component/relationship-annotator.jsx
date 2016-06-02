@@ -10,7 +10,7 @@ const TextAnnotation = require('../model/text-annotation');
 const RelationshipAnnotation = require('../model/relationship-annotation');
 const ArrowAnnotation = require('../model/arrow-annotation');
 const Annotator = require('./annotator.jsx');
-
+const Radium = require('radium');
 
 class RelationshipAnnotator extends Annotator {
   constructor(props) {
@@ -98,8 +98,6 @@ class RelationshipAnnotator extends Annotator {
   }
 
   handleClickEvent(event, annotation, arrowPoint, arrowPointType) {
-    //TODO need to add category setting in place once I have buttons
-    // console.log(annotation.bounds);
     annotation.category = AnnotationManager.getCurrentCategory();
     AnnotationManager.addAnnotation(this.props.imageId, annotation);
     // this.handleAnnotationClick(annotation);
@@ -147,8 +145,12 @@ class RelationshipAnnotator extends Annotator {
     var tool_body = window.document.getElementsByTagName('main')[0];
     var body_height = tool_body.clientHeight;
     var cssClass = 'annotation-pane relationship-annotation-pane';
+    var style = {
+      border: '8px dotted @blue'
+    }
     return (
-      <div className={cssClass}>
+      <div className={cssClass}
+        style={style}>
         <div className="annotation-pane-image" ref="origin">
           <img src={this.props.imageUrl} style={{height: body_height}} />
           {this.props.annotations}
