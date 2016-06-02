@@ -21,11 +21,11 @@ class AnnotationBounds extends React.Component {
 
     var color_map = new Object();
     color_map["Header/Topic"] = "#286a8e";
-    color_map["Discussion"] = "#5ea5d9";
+    color_map["Discussion"] = "#5ecbd9";
     color_map["Definition"] = "#3fb62c";
     color_map["Question"] = "#a92020";
-    color_map["Answer"] = "#fdea65";
-    color_map["Figure Label"] = "#e26622";
+    color_map["Answer"] = "#BA70CC";
+    color_map["Figure Label"] = "#e2b522";
     color_map["unlabeled"] = "#8c9296";
 
     function get_rgb_value(k) {
@@ -37,7 +37,7 @@ class AnnotationBounds extends React.Component {
       var green = parseInt(hex_color.substring(2,4), 16);
       var blue = parseInt(hex_color.substring(4,6), 16);
 
-      var color_with_trans = 'rgba('+red+','+green+','+blue+','+opacity+')';
+    var color_with_trans = 'rgba('+red+','+green+','+blue+','+opacity+')';
       return color_with_trans;
     }
     var styles = {
@@ -47,7 +47,7 @@ class AnnotationBounds extends React.Component {
             width: width + 'px',
             height: height + 'px',
             zIndex: zIndex,
-            backgroundColor: convertHex(get_rgb_value(this.props.category), 0.2),
+            backgroundColor: convertHex(get_rgb_value(this.props.category), 0.25),
             ':hover': {
               border: "8px dotted " + convertHex(get_rgb_value(AnnotationManager.getCurrentCategory()), 0.8)
             }

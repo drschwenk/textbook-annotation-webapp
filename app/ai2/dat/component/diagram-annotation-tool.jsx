@@ -18,6 +18,13 @@ class DiagramAnnotationTool extends React.Component {
     this.state = { hasImages: false };
     this.handleNewImageSet = this.handleNewImageSet.bind(this);
     this.saveAndAdvance = this.saveAndAdvance.bind(this);
+    this.set_discussion= this.set_discussion.bind(this);
+    this.set_header= this.set_header.bind(this);
+    this.set_definition= this.set_definition.bind(this);
+    this.set_question= this.set_question.bind(this);
+    this.set_answer= this.set_answer.bind(this);
+    this.set_fl= this.set_fl.bind(this);
+    this.set_unlabeled= this.set_unlabeled.bind(this);
   }
   handleNewImageSet() {
     AnnotationManager.clear();
@@ -27,30 +34,37 @@ class DiagramAnnotationTool extends React.Component {
   }
   set_header(){
     AnnotationManager.setCurrentCategory('Header/Topic');
+    this.refs.cat_selector.setState({current_category: ''});
   }
   set_discussion(){
     AnnotationManager.setCurrentCategory('Discussion');
+    this.refs.cat_selector.setState({current_category: 'Discussion'});
   }
   set_definition(){
     AnnotationManager.setCurrentCategory('Definition');
+    this.refs.cat_selector.setState({current_category: 'Definition'});
   }
   set_question(){
     AnnotationManager.setCurrentCategory('Question');
+    this.refs.cat_selector.setState({current_category: 'Question'});
   }
   set_answer(){
     AnnotationManager.setCurrentCategory('Answer');
+    this.refs.cat_selector.setState({current_category: 'Answer'});
   }
   set_fl(){
     AnnotationManager.setCurrentCategory('Figure Label');
+    this.refs.cat_selector.setState({current_category: 'Figure Label'});
   }
-  set_other(){
-    AnnotationManager.setCurrentCategory('Other');
+  set_unlabeled(){
+    AnnotationManager.setCurrentCategory('unlabeled');
+    this.refs.cat_selector.setState({current_category: 'Unlabeled'});
   }
   componentDidMount() {
     ImageManager.on(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
 
     KeyMaster.on(KeyCode.Enter, this.saveAndAdvance);
-    KeyMaster.on(KeyCode.Other, this.set_other);
+    KeyMaster.on(KeyCode.Unlabeled, this.set_unlabeled);
     KeyMaster.on(KeyCode.Header_Topic, this.set_header);
     KeyMaster.on(KeyCode.Discussion, this.set_discussion);
     KeyMaster.on(KeyCode.Definition,this.set_definition);
@@ -68,7 +82,7 @@ class DiagramAnnotationTool extends React.Component {
     return view;
   }
   renderCategoryPicker(){
-    var sidebar = <CategorySelector />;
+    var sidebar = <CategorySelector ref="cat_selector"/>;
     return sidebar;
   }
   populate_fields(name, val){
@@ -125,6 +139,3 @@ class DiagramAnnotationTool extends React.Component {
 
 // <form action="http://www.mturk.com/mturk/externalSubmit"
 module.exports = DiagramAnnotationTool;
-
-
-
