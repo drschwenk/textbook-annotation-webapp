@@ -21,4 +21,6 @@ class LoggingMiddleware(object):
 
 
 # app.wsgi_app = LoggingMiddleware(app.wsgi_app)
+global group_image_urls
+global pages_to_review_idx
 app.run(debug=True, host='127.0.0.1', port=8080)

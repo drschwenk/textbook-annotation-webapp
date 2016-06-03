@@ -2,7 +2,8 @@ from server import app
 from server import jsonify
 import json
 import requests as rq
-from flask_restful import Resource, Api
+import ast
+from flask_restful import Resource, Api, reqparse
 import utils.url_gen as url_builder
 
 api = Api(app)
@@ -11,9 +12,12 @@ book_groups, range_lookup = url_builder.load_book_info()
 
 group_image_urls = url_builder.make_book_group_urls(book_groups, 'daily_sci', range_lookup, url_builder.form_image_url)
 # group_image_urls = url_builder.random_subset(group_image_urls, 100)
-group_image_urls = group_image_urls[510:515]
+group_image_urls = group_image_urls[502:542]
+# group_image_urls = []
 pages_to_review_idx = range(1, len(group_image_urls) + 1)
 
+parser = reqparse.RequestParser()
+parser.add_argument('pages_to_review', type=str)
 
 class Image(Resource):
     fields = ['id', 'url']
@@ -25,6 +29,20 @@ class Image(Resource):
 
     def put(self, image_idx):
         return "test"
+
+
+class ReviewSequence(Resource):
+    def post(self):
+        image_base = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/smaller-page-images/'
+        args = parser.parse_args()
+        pages_to_review = ast.literal_eval(args['pages_to_review'])
+        urls_to_review = [image_base + page for page in pages_to_review]
+        global group_image_urls
+        group_image_urls = urls_to_review
+        global pages_to_review_idx
+        pages_to_review_idx = range(1, len(group_image_urls) + 1)
+        return 'loaded'
+
 
 
 class Annotation(Resource):
@@ -57,7 +75,7 @@ class Annotation(Resource):
         return annotation_json
 
     def put(self, image_idx):
-        return 'test'
+        return '200'
 
 
 class NextImage(Image):
@@ -67,7 +85,7 @@ class NextImage(Image):
 api.add_resource(Image, '/api/images/<int:image_idx>')
 api.add_resource(Annotation, '/api/images/<int:image_idx>/annotations')
 api.add_resource(NextImage, '/api/datasets/<int:image_idx>/nextImage')
-
+api.add_resource(ReviewSequence, '/api/review')
 
 @app.route('/api/datasets/1/images', methods=['GET'])
 def get_finished_image():
