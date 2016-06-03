@@ -44,10 +44,10 @@ class ReviewSequence(Resource):
         return 'loaded'
 
 
-
 class Annotation(Resource):
     def flatten_json(self, annotations):
         flattened_json = []
+        print(annotations)
         for a_type, objs in annotations.items():
             for obj_name, obj in objs.items():
                 obj['type'] = a_type
@@ -58,7 +58,8 @@ class Annotation(Resource):
         return url.replace('smaller-page-images', 'unmerged_annotations').replace('jpeg', 'json')
 
     def import_local(self, url):
-        base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/labeled-annotations/'
+        # base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/labeled-annotations/'
+        base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/annotations_ws/'
         anno_file = url.rsplit('/',  1)[1].replace('jpeg', 'json')
         file_path = base_path + anno_file
         with open(file_path, 'r') as f:
