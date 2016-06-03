@@ -213,7 +213,7 @@ class AnnotationManager extends EventEmitter {
     });
 
     remoteArrowAnnotation.destinations.forEach(function(rd) {
-      
+
       var arrowPoint = new ArrowPointBounds(annotation.getNextDestinationId(), rd.rotation, {"x": rd.bounds.x1, "y": rd.bounds.y1}, {"x": rd.bounds.x2, "y": rd.bounds.y2});
       arrowPoint.remoteId = rd.id;
       arrowPoint.remoteUrl = baseUrl + "/annotations/arrowDestinations/" + rd.id;
@@ -234,22 +234,12 @@ class AnnotationManager extends EventEmitter {
     //   var box_name = key;
     //   var annoation_val = remoteAnnotation[key];
     // }
-    var o_height = 2140;
+    var o_height = remoteAnnotation.v_dim;
     var bounding_boxes = remoteAnnotation.rectangle;
     var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
     var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-10;
     var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+10;
     var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+10;
-
-    // var upscale_width = (c3 - c1)*1.05;
-    // var upscale_height = (c4 - c2)*1.05;
-
-    // console.log(c1, c2, c3, c4);
-
-    // var c1 = ~~(bounding_boxes[0][0]*body_height/o_height - upscale_width);
-    // var c2 = ~~(bounding_boxes[0][1]*body_height/o_height - upscale_height);
-    // var c3 = ~~(bounding_boxes[1][0]*body_height/o_height + upscale_width);
-    // var c4 = ~~(bounding_boxes[1][1]*body_height/o_height + upscale_height);
 
     var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
     var annotation;
@@ -275,7 +265,7 @@ class AnnotationManager extends EventEmitter {
             'Unsupported annotation type: "' + remoteAnnotation.annotationType + '."'
             );
     }
-    
+
     if (annotation) {
       annotation.remoteId = remoteAnnotation.box_id;
       annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + remoteAnnotation.box_id;
