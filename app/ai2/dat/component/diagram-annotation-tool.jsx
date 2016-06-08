@@ -114,7 +114,7 @@ class DiagramAnnotationTool extends React.Component {
         <header className="padded flex-row">
           <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
           <h1 className=" flex-align-right">Textbook Annotation Tool</h1>
-          <a href="https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/textbook_hit_instructions/instructions.html" 
+          <a href="https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/textbook_hit_instructions/instructions.html"
             target="_blank" className="review_instructions flex-align-right">
             <strong>Review Instructions</strong>
           </a>
@@ -129,7 +129,7 @@ class DiagramAnnotationTool extends React.Component {
           {view}
         </main>
           <div className="flex-align-right">
-            <form action= "https://workersandbox.mturk.com/mturk/externalSubmit"
+            <form action= "https://www.mturk.com/mturk/externalSubmit"
                   method="POST">
               <input type="hidden" name="assignmentId" id="myAssignmentId" value={url_params.assignmentId} />
               <input type="hidden" name="image_id" id="image_id" value = {url_params.url}/>
