@@ -11,13 +11,18 @@ api = Api(app)
 book_groups, range_lookup = url_builder.load_book_info()
 
 group_image_urls = url_builder.make_book_group_urls(book_groups, 'daily_sci', range_lookup, url_builder.form_image_url)
-# group_image_urls = url_builder.random_subset(group_image_urls, 100)
-group_image_urls = group_image_urls[502:542]
-# group_image_urls = []
+group_image_urls += url_builder.make_book_group_urls(book_groups, 'spectrum_sci', range_lookup, url_builder.form_image_url)
+group_image_urls += url_builder.make_book_group_urls(book_groups, 'read_und_sci', range_lookup, url_builder.form_image_url)
+group_image_urls += url_builder.make_book_group_urls(book_groups, 'workbooks', range_lookup, url_builder.form_image_url)
+group_image_urls = url_builder.random_subset(group_image_urls, 100)
+# group_image_urls = group_image_urls[160:260]
 pages_to_review_idx = range(1, len(group_image_urls) + 1)
 
 parser = reqparse.RequestParser()
 parser.add_argument('pages_to_review', type=str)
+s3_path_base = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/'
+local_base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/'
+
 
 class Image(Resource):
     fields = ['id', 'url']
@@ -33,7 +38,7 @@ class Image(Resource):
 
 class ReviewSequence(Resource):
     def post(self):
-        image_base = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/smaller-page-images/'
+        image_base = s3_path_base + 'smaller-page-images/'
         args = parser.parse_args()
         pages_to_review = ast.literal_eval(args['pages_to_review'])
         urls_to_review = [image_base + page for page in pages_to_review]
@@ -47,7 +52,6 @@ class ReviewSequence(Resource):
 class Annotation(Resource):
     def flatten_json(self, annotations):
         flattened_json = []
-        print(annotations)
         for a_type, objs in annotations.items():
             for obj_name, obj in objs.items():
                 obj['type'] = a_type
@@ -58,8 +62,8 @@ class Annotation(Resource):
         return url.replace('smaller-page-images', 'unmerged_annotations').replace('jpeg', 'json')
 
     def import_local(self, url):
-        # base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/labeled-annotations/'
-        base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/annotations_ws/'
+        # base_path =  local_base_path + 'labeled-annotations/'
+        base_path = local_base_path + 'test-annotations/'
         anno_file = url.rsplit('/',  1)[1].replace('jpeg', 'json')
         file_path = base_path + anno_file
         with open(file_path, 'r') as f:

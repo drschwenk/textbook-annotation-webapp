@@ -85,4 +85,3 @@ class DiagramAnnotationTool extends React.Component {
 }
 
 module.exports = DiagramAnnotationTool;
-
