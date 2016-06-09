@@ -62,8 +62,8 @@ class Annotation(Resource):
         return url.replace('smaller-page-images', 'unmerged_annotations').replace('jpeg', 'json')
 
     def import_local(self, url):
-        # base_path =  local_base_path + 'labeled-annotations/'
-        base_path = local_base_path + 'test-annotations/'
+        # base_path = local_base_path + 'labeled-annotations/'
+        base_path = local_base_path + 'merged-annotations/'
         anno_file = url.rsplit('/',  1)[1].replace('jpeg', 'json')
         file_path = base_path + anno_file
         with open(file_path, 'r') as f:
