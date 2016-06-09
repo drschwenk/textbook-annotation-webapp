@@ -116,7 +116,7 @@ class DiagramAnnotationTool extends React.Component {
           <h1 className=" flex-align-right">Textbook Annotation Tool</h1>
           <a href="https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/textbook_hit_instructions/instructions.html"
             target="_blank" className="review_instructions flex-align-right">
-            <strong>Review Instructions</strong>
+            <strong>Read Instructions Here</strong>
           </a>
           <a href="http://allenai.org" target="_blank" className="made-by-ai2 flex-align-right">
             <strong>Made By:</strong>
