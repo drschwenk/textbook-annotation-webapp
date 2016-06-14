@@ -20,8 +20,11 @@ pages_to_review_idx = range(1, len(group_image_urls) + 1)
 
 parser = reqparse.RequestParser()
 parser.add_argument('pages_to_review', type=str)
+parser.add_argument('annotation_dir', type=str)
 s3_path_base = 'https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/'
 local_base_path = '/Users/schwenk/wrk/notebooks/stb/ai2-vision-turk-data/textbook-annotation-test/'
+annotation_dir = 'newly-labeled-annotations/'
+base_path = local_base_path + annotation_dir
 
 
 class Image(Resource):
@@ -41,6 +44,8 @@ class ReviewSequence(Resource):
         image_base = s3_path_base + 'smaller-page-images/'
         args = parser.parse_args()
         pages_to_review = ast.literal_eval(args['pages_to_review'])
+        global annotation_dir
+        annotation_dir = args['annotation_dir']
         urls_to_review = [image_base + page for page in pages_to_review]
         global group_image_urls
         group_image_urls = urls_to_review
@@ -62,10 +67,9 @@ class Annotation(Resource):
         return url.replace('smaller-page-images', 'unmerged_annotations').replace('jpeg', 'json')
 
     def import_local(self, url):
-        base_path = local_base_path + 'newly-labeled-annotations/'
-        # base_path = local_base_path + 'merged-annotations/'
+        local_path = local_base_path + annotation_dir
         anno_file = url.rsplit('/',  1)[1].replace('jpeg', 'json')
-        file_path = base_path + anno_file
+        file_path = local_path + anno_file
         with open(file_path, 'r') as f:
             local_annotations = json.load(f)
         return local_annotations
@@ -91,6 +95,7 @@ api.add_resource(Image, '/api/images/<int:image_idx>')
 api.add_resource(Annotation, '/api/images/<int:image_idx>/annotations')
 api.add_resource(NextImage, '/api/datasets/<int:image_idx>/nextImage')
 api.add_resource(ReviewSequence, '/api/review')
+
 
 @app.route('/api/datasets/1/images', methods=['GET'])
 def get_finished_image():
