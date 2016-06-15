@@ -61,7 +61,7 @@ class AnnotationManager extends EventEmitter {
     this.mode = AnnotationMode.default();
     this.annotations = new Map();
     this.idSequence = 0;
-    this.current_category_selector= "Header/Topic";
+    this.current_category_selector= "Short Answer";
     this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/"
   }
   clear() {

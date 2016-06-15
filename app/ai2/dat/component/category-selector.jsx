@@ -27,46 +27,34 @@ class CategorySelector extends React.Component {
     }
     render() {
         var header_button = <CategoryButton
-          category={'Header/Topic'}
+          category={'Short Answer'}
           current_category={this.state.current_category}
           onClickEvent={this.handleClickEvent}
           hotKeyNumber={'1'}
           />;
         var discussion_button = <CategoryButton
-          category={'Discussion'}
+          category={'Fill-in-the-Blank'}
           current_category={this.state.current_category}
           onClickEvent={this.handleClickEvent}
           hotKeyNumber={'2'}
           />;
         var question_button = <CategoryButton
-          category={'Question'}
+          category={'True/False'}
           current_category={this.state.current_category}
           onClickEvent={this.handleClickEvent}
           hotKeyNumber={'4'}
           />;
         var answer_button = <CategoryButton
-          category={'Answer'}
+          category={'Other'}
           current_category={this.state.current_category}
           onClickEvent={this.handleClickEvent}
           hotKeyNumber={'5'}
           />;
         var label_button = <CategoryButton
-          category={'Figure Label'}
+          category={'Multiple Choice'}
           current_category={this.state.current_category}
           onClickEvent={this.handleClickEvent}
           hotKeyNumber={'6'}
-          />;
-        var unlabeled_button = <CategoryButton
-          category={'unlabeled'}
-          current_category={this.state.current_category}
-          onClickEvent={this.handleClickEvent}
-          hotKeyNumber={'7'}
-          />;
-        var defintion_button = <CategoryButton
-          category={'Definition'}
-          current_category={this.state.current_category}
-          onClickEvent={this.handleClickEvent}
-          hotKeyNumber={'3'}
           />;
         return (
         <div className="annotation-pane-dialog-header">
@@ -78,9 +66,6 @@ class CategorySelector extends React.Component {
               {discussion_button}
             </div>
             <div className="annotation-pane-dialog-content">
-              {defintion_button}
-            </div>
-            <div className="annotation-pane-dialog-content">
               {question_button}
             </div>
             <div className="annotation-pane-dialog-content">
@@ -88,9 +73,6 @@ class CategorySelector extends React.Component {
             </div>
             <div className="annotation-pane-dialog-content">
               {label_button}
-            </div>
-            <div className="annotation-pane-dialog-content">
-              {unlabeled_button}
             </div>
           </div>
     );

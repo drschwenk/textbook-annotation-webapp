@@ -23,7 +23,6 @@ class DiagramAnnotationTool extends React.Component {
     this.set_definition= this.set_definition.bind(this);
     this.set_question= this.set_question.bind(this);
     this.set_answer= this.set_answer.bind(this);
-    this.set_fl= this.set_fl.bind(this);
     this.set_unlabeled= this.set_unlabeled.bind(this);
   }
   handleNewImageSet() {
@@ -33,28 +32,24 @@ class DiagramAnnotationTool extends React.Component {
     }
   }
   set_header(){
-    AnnotationManager.setCurrentCategory('Header/Topic');
+    AnnotationManager.setCurrentCategory('Short Answer');
     this.refs.cat_selector.setState({current_category: ''});
   }
   set_discussion(){
-    AnnotationManager.setCurrentCategory('Discussion');
+    AnnotationManager.setCurrentCategory('Fill-in-the-Blank');
     this.refs.cat_selector.setState({current_category: 'Discussion'});
   }
   set_definition(){
-    AnnotationManager.setCurrentCategory('Definition');
+    AnnotationManager.setCurrentCategory('True/False');
     this.refs.cat_selector.setState({current_category: 'Definition'});
   }
   set_question(){
-    AnnotationManager.setCurrentCategory('Question');
+    AnnotationManager.setCurrentCategory('Other');
     this.refs.cat_selector.setState({current_category: 'Question'});
   }
   set_answer(){
-    AnnotationManager.setCurrentCategory('Answer');
+    AnnotationManager.setCurrentCategory('Multiple Choice');
     this.refs.cat_selector.setState({current_category: 'Answer'});
-  }
-  set_fl(){
-    AnnotationManager.setCurrentCategory('Figure Label');
-    this.refs.cat_selector.setState({current_category: 'Figure Label'});
   }
   set_unlabeled(){
     AnnotationManager.setCurrentCategory('unlabeled');
@@ -70,7 +65,6 @@ class DiagramAnnotationTool extends React.Component {
     KeyMaster.on(KeyCode.Definition,this.set_definition);
     KeyMaster.on(KeyCode.Question, this.set_question);
     KeyMaster.on(KeyCode.Answer, this.set_answer);
-    KeyMaster.on(KeyCode.Figure_Lable, this.set_fl);
   }
   componentWillUnmount() {
     ImageManager.off(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
