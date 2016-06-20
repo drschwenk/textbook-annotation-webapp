@@ -26,4 +26,5 @@ class QuestionGroup extends Annotation {
   removeSourceId() {
     return this.setSourceId();
   }
+}
 module.exports = QuestionGroup;

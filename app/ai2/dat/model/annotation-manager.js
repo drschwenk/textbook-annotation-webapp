@@ -62,7 +62,8 @@ class AnnotationManager extends EventEmitter {
     this.annotations = new Map();
     this.idSequence = 0;
     this.current_category_selector= "Short Answer";
-    this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/"
+    // this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/";
+    this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/test-remerged-annotations/";
   }
   clear() {
     this.annotations.clear();
@@ -131,9 +132,10 @@ class AnnotationManager extends EventEmitter {
       this.annotations.set(imageId, new AnnotationCollection());
     }
     this.annotations.get(imageId).add(annotation);
-    if (annotation instanceof RelationshipAnnotation) {
-      this.addRelationships(imageId, annotation);
-    }
+    // console.log(this.annotations.get(imageId));
+    // if (annotation instanceof RelationshipAnnotation) {
+      // this.addRelationships(imageId, annotation);
+    // }
     this.emit(AnnotationManagerEvent.ANNOTATION_ADDED, imageId, annotation);
     return this;
   }
@@ -268,7 +270,7 @@ class AnnotationManager extends EventEmitter {
 
     if (annotation) {
       annotation.remoteId = remoteAnnotation.box_id;
-      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + remoteAnnotation.box_id;
+      // annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + remoteAnnotation.box_id;
       this.importAnnotation(imageId, annotation);
       remoteAnnotationMap.set(annotation.remoteId, remoteAnnotation.id);
     }
@@ -291,90 +293,11 @@ class AnnotationManager extends EventEmitter {
     this.importAnnotation(imageId, relationship);
   }
 
-  importAnnotationsFromJson(imageId, annotations) {
-
-    var imported = 0;
-    // if (ImageManager.hasImageWithName(imageId)) {
-      if(1) {
-      // We need to do relationships last, so let's sort them accordingly
-      // annotations.sort(function(a, b) {
-      //   const aIsRelationship = a.type === AnnotationType.RELATIONSHIP;
-      //   const bIsRelationship = b.type === AnnotationType.RELATIONSHIP;
-      //
-      //   // a is not a relationship, b is a relationship, sort it lower in the list
-      //   if (!aIsRelationship && bIsRelationship) {
-      //     return -1;
-      //   }
-      //   // a is a relationship, b is not, sort b lower in the last
-      //   else if (aIsRelationship && !bIsRelationship) {
-      //     return 1;
-      //   }
-      //   // no change, as they're either the same type or both not relationships
-      //   else {
-      //     return 0;
-      //   }
-      // });
-      for(var type in annotations){
-        var annotation = annotations[type];
-        switch (type) {
-          // case AnnotationType.SHAPE:
-          //   annotation = new ShapeAnnotation(
-          //     annotation.id,
-          //     new Bounds(annotation.bounds.coords)
-          //   );
-          //   break;
-          // case AnnotationType.CONTAINER:
-          //   annotation = new ContainerAnnotation(
-          //     annotation.id,
-          //     new Bounds(annotation.bounds.coords)
-          //   );
-          //   break;
-          // case AnnotationType.ARROW:
-          //   const origins = Array.isArray(annotation.origins) ? annotation.origins : [];
-          //   const dests = Array.isArray(annotation.destinations) ? annotation.destinations : [];
-          //   annotation = new ArrowAnnotation(
-          //     annotation.id,
-          //     origins.map(function(o) {
-          //       return new ArrowPointBounds(o.id, o.rotation, ...o.coords);
-          //     }),
-          //     dests.map(function(d) {
-          //       return new ArrowPointBounds(d.id, d.rotation, ...d.coords);
-          //     })
-          //   );
-          //   break;
-          case AnnotationType.TEXT:
-              // for(var obj in annotation)
-              // console.log(annotation);
-            annotation = new TextAnnotation(
-              annotation.id,
-              new Bounds(annotation.bounds.coords),
-              annotation.text
-            );
-            break;
-          // case AnnotationType.RELATIONSHIP:
-          //   annotation = new RelationshipAnnotation(
-          //     annotation.id,
-          //     annotation.source,
-          //     annotation.target,
-          //     annotation.arrowOrigin,
-          //     annotation.arrowDestination
-          //   );
-          //   break;
-          default:
-            // MessageManager.warn(
-            //   'Unsupported annotation type: "' + annotation.type + '."'
-            // );
-        }
-        this.addAnnotation(imageId, annotation);
-      }
-      imported = annotations.length;
-    }
-    return imported;
-  }
-
-  importRemoteAnnotations(image, callback) {
+    importRemoteAnnotations(image, callback) {
     var am = this;
-    var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'merged-annotations');
+    // console.log(this.annotations);
+    var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'test-remerged-annotations');
+    // var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'merged-annotations');
     qwest.get(annotation_url).then(function(response) {
       var imported = 0;
       var remoteAnnotationMap = new Map();
@@ -401,6 +324,89 @@ class AnnotationManager extends EventEmitter {
       MessageManager.warn("Error loading imageId: " + image.id + " " + e);
     });
   }
+
+
+  importAnnotationsFromJson(imageId, annotations) {
+
+      var imported = 0;
+      // if (ImageManager.hasImageWithName(imageId)) {
+        if(1) {
+        // We need to do relationships last, so let's sort them accordingly
+        // annotations.sort(function(a, b) {
+        //   const aIsRelationship = a.type === AnnotationType.RELATIONSHIP;
+        //   const bIsRelationship = b.type === AnnotationType.RELATIONSHIP;
+        //
+        //   // a is not a relationship, b is a relationship, sort it lower in the list
+        //   if (!aIsRelationship && bIsRelationship) {
+        //     return -1;
+        //   }
+        //   // a is a relationship, b is not, sort b lower in the last
+        //   else if (aIsRelationship && !bIsRelationship) {
+        //     return 1;
+        //   }
+        //   // no change, as they're either the same type or both not relationships
+        //   else {
+        //     return 0;
+        //   }
+        // });
+        for(var type in annotations){
+          var annotation = annotations[type];
+          switch (type) {
+            // case AnnotationType.SHAPE:
+            //   annotation = new ShapeAnnotation(
+            //     annotation.id,
+            //     new Bounds(annotation.bounds.coords)
+            //   );
+            //   break;
+            // case AnnotationType.CONTAINER:
+            //   annotation = new ContainerAnnotation(
+            //     annotation.id,
+            //     new Bounds(annotation.bounds.coords)
+            //   );
+            //   break;
+            // case AnnotationType.ARROW:
+            //   const origins = Array.isArray(annotation.origins) ? annotation.origins : [];
+            //   const dests = Array.isArray(annotation.destinations) ? annotation.destinations : [];
+            //   annotation = new ArrowAnnotation(
+            //     annotation.id,
+            //     origins.map(function(o) {
+            //       return new ArrowPointBounds(o.id, o.rotation, ...o.coords);
+            //     }),
+            //     dests.map(function(d) {
+            //       return new ArrowPointBounds(d.id, d.rotation, ...d.coords);
+            //     })
+            //   );
+            //   break;
+            case AnnotationType.TEXT:
+                // for(var obj in annotation)
+                // console.log(annotation);
+              annotation = new TextAnnotation(
+                annotation.id,
+                new Bounds(annotation.bounds.coords),
+                annotation.text
+              );
+              break;
+            // case AnnotationType.RELATIONSHIP:
+            //   annotation = new RelationshipAnnotation(
+            //     annotation.id,
+            //     annotation.source,
+            //     annotation.target,
+            //     annotation.arrowOrigin,
+            //     annotation.arrowDestination
+            //   );
+            //   break;
+            default:
+              // MessageManager.warn(
+              //   'Unsupported annotation type: "' + annotation.type + '."'
+              // );
+          }
+          this.addAnnotation(imageId, annotation);
+        }
+        imported = annotations.length;
+      }
+      return imported;
+    }
+
   import(file) {
 
     if (!Reader.isSupported) {

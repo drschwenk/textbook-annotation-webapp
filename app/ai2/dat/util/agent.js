@@ -5,10 +5,10 @@ const qwest = require('qwest');
 
 function coords2bounds(coords) {
   return {
-    x1:coords[0].x, 
-    y1:coords[0].x, 
-    x2:coords[1].x, 
-    y2:coords[1].y 
+    x1:coords[0].x,
+    y1:coords[0].x,
+    x2:coords[1].x,
+    y2:coords[1].y
   };
 }
 module.exports  = {
@@ -89,7 +89,7 @@ module.exports  = {
     });
     var baseUrl = "/api/images/" + imageId;
     qwest.post(baseUrl + "/annotations/arrows", arrow, {dataType: 'json'}).then(function(response) {
-      arrowAnnotation.remoteId = response.id; 
+      arrowAnnotation.remoteId = response.id;
       arrowAnnotation.remoteUrl = this.getResponseHeader('Location');
       response.origins.forEach(function(element) {
         arrowAnnotation.origins.get(element.key).remoteId = element.id;
@@ -119,7 +119,7 @@ module.exports  = {
     // };
 
     var category_designation = annotation.category;
-    qwest.post("/api/images/" + imageId + "/annotations", 
+    qwest.post("/api/images/" + imageId + "/annotations",
       {category: category_designation}, {dataType: 'json'}).catch(function(e){
       MessageManager.warn('Failed to save annotation' + e);
     });

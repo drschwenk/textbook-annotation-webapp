@@ -23,10 +23,21 @@ class AnnotationBounds extends React.Component {
     color_map["Short Answer"] = "#e77423";
     color_map["Fill-in-the-Blank"] = "#286a8e";
     color_map["True/False"] = "#3fb62c";
+    color_map["Question"] = "#a92020";
+    color_map["Multiple Choice"] = "#BA70CC";
+    color_map["Other"] = "#e7d323";
+    color_map["unlabeled"] = "#8c9296";
+    color_map["unlabeled"] = "#8c9296";
+    color_map["unlabeled"] = "#8c9296";
+    color_map["unlabeled"] = "#8c9296";
+    color_map["unlabeled"] = "#8c9296";
+    color_map["Short Answer"] = "#e77423";
+    color_map["Fill-in-the-Blank"] = "#286a8e";
+    color_map["True/False"] = "#3fb62c";
     color_map["Other"] = "#a92020";
     color_map["Multiple Choice"] = "#BA70CC";
     color_map["Figure Label"] = "#e7d323";
-    color_map["unlabeled"] = "#8c9296";
+    color_map["No Consensus"] = "#00FFF2";
 
     function get_rgb_value(k) {
       return color_map[k];
