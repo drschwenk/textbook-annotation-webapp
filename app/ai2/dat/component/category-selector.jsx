@@ -42,19 +42,19 @@ class CategorySelector extends React.Component {
           category={'True/False'}
           current_category={this.state.current_category}
           onClickEvent={this.handleClickEvent}
-          hotKeyNumber={'4'}
-          />;
-        var answer_button = <CategoryButton
-          category={'Other'}
-          current_category={this.state.current_category}
-          onClickEvent={this.handleClickEvent}
-          hotKeyNumber={'5'}
+          hotKeyNumber={'3'}
           />;
         var label_button = <CategoryButton
           category={'Multiple Choice'}
           current_category={this.state.current_category}
           onClickEvent={this.handleClickEvent}
-          hotKeyNumber={'6'}
+          hotKeyNumber={'4'}
+          />;
+        var answer_button = <CategoryButton
+          category={'Unlabeled'}
+          current_category={this.state.current_category}
+          onClickEvent={this.handleClickEvent}
+          hotKeyNumber={'5'}
           />;
         return (
         <div className="annotation-pane-dialog-header">
@@ -69,10 +69,10 @@ class CategorySelector extends React.Component {
               {question_button}
             </div>
             <div className="annotation-pane-dialog-content">
-              {answer_button}
+              {label_button}
             </div>
             <div className="annotation-pane-dialog-content">
-              {label_button}
+              {answer_button}
             </div>
           </div>
     );

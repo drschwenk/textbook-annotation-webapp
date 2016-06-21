@@ -85,6 +85,7 @@ class AnnotationManager extends EventEmitter {
   }
   advanceCurrentGroupNumber(){
     this.current_question_group += 1;
+    this.emit(AnnotationManagerEvent.MODE_CHANGED);
   }
   resetAnnotations(imageId) {
     this.annotations.set(imageId, new AnnotationCollection());

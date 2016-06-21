@@ -104,7 +104,6 @@ class RelationshipAnnotator extends Annotator {
       annotation.group_n= AnnotationManager.getCurrentGroupNumber();
       AnnotationManager.addAnnotation(this.props.imageId, annotation);
     }
-    // AnnotationManager.addAnnotation(this.props.imageId, annotation);
   }
   //   if (!this.relationship) {
   //     this.relationship = new RelationshipAnnotation(

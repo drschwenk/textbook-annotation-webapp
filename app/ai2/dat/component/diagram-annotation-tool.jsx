@@ -44,7 +44,7 @@ class DiagramAnnotationTool extends React.Component {
     this.refs.cat_selector.setState({current_category: 'Definition'});
   }
   set_question(){
-    AnnotationManager.setCurrentCategory('Other');
+    AnnotationManager.setCurrentCategory('Unlabeled');
     this.refs.cat_selector.setState({current_category: 'Question'});
   }
   set_answer(){
@@ -59,6 +59,7 @@ class DiagramAnnotationTool extends React.Component {
     ImageManager.on(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
 
     KeyMaster.on(KeyCode.Enter, this.saveAndAdvance);
+    KeyMaster.on(KeyCode.Advance_Question, this.advanceQuestionGroup);
     KeyMaster.on(KeyCode.Unlabeled, this.set_unlabeled);
     KeyMaster.on(KeyCode.Header_Topic, this.set_header);
     KeyMaster.on(KeyCode.Discussion, this.set_discussion);
@@ -130,7 +131,7 @@ class DiagramAnnotationTool extends React.Component {
           {view}
         </main>
           <div className="flex-align-right">
-            <form action= "https://www.mturk.com/mturk/externalSubmit"
+            <form action= "https://workersandbox.mturk.com/mturk/externalSubmit"
                   method="POST">
               <input type="hidden" name="assignmentId" id="myAssignmentId" value={url_params.assignmentId} />
               <input type="hidden" name="image_id" id="image_id" value = {url_params.url}/>
