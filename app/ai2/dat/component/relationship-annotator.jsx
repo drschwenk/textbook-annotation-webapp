@@ -102,7 +102,6 @@ class RelationshipAnnotator extends Annotator {
     if(annotation instanceof QuestionAnnotation){
       annotation.category = AnnotationManager.getCurrentCategory();
       annotation.group_n= AnnotationManager.getCurrentGroupNumber();
-      console.log(annotation.group_n);
       AnnotationManager.addAnnotation(this.props.imageId, annotation);
     }
     // AnnotationManager.addAnnotation(this.props.imageId, annotation);

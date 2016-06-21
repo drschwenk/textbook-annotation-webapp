@@ -184,7 +184,7 @@ class AnnotationManager extends EventEmitter {
     var return_vals = [];
     for(var a_map  in annotation_map) {
       annotation_map[a_map].forEach(function (obj, key) {
-        var subset = ['id', 'category'].reduce(function (o, k) {
+        var subset = ['id', 'category', 'group_n'].reduce(function (o, k) {
           o[k] = obj[k];
           return o;
         }, {});
