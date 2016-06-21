@@ -8,6 +8,7 @@ const AnnotationManagerEvent = require('./annotation-manager-event');
 const RelationshipAnnotation = require('./relationship-annotation');
 const ArrowAnnotation = require('./arrow-annotation');
 const TextAnnotation = require('./text-annotation');
+const QuestionAnnotation = require('./question-annotation');
 const ContainerAnnotation = require('./container-annotation');
 const ShapeAnnotation = require('./shape-annotation');
 const Bounds = require('./bounds');
@@ -62,7 +63,7 @@ class AnnotationManager extends EventEmitter {
     this.annotations = new Map();
     this.idSequence = 0;
     this.current_category_selector= "Short Answer";
-    this.current_question_group = 0;
+    this.current_question_group = 1;
     // this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/";
     this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/test-remerged-annotations/";
   }
@@ -232,7 +233,7 @@ class AnnotationManager extends EventEmitter {
     remoteAnnotationMap.set(annotation.remoteId, annotation.id);
   }
 
-  importRemoteAnnotation(imageId, remoteAnnotation, remoteAnnotationMap) {
+  importRemoteAnnotation(imageId, annotation_type, remoteAnnotation, remoteAnnotationMap) {
     var tool_body = window.document.getElementsByTagName('main')[0];
     var body_height = tool_body.clientHeight;
     // for(var key in remoteAnnotation){
@@ -247,15 +248,25 @@ class AnnotationManager extends EventEmitter {
     var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+10;
 
     var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
+
     var annotation;
-    switch ('text') {
+    switch (annotation_type) {
       case AnnotationType.SHAPE:
         annotation = new ShapeAnnotation(this.getNewAnnotationId(AnnotationType.SHAPE),bounds);
         break;
       case "relationship":
         annotation = new ContainerAnnotation(this.getNewAnnotationId(AnnotationType.CONTAINER), bounds);
         break;
-      case AnnotationType.TEXT:
+      case AnnotationType.QUESTION:
+          annotation = new QuestionAnnotation(
+            remoteAnnotation.box_id,
+            bounds,
+            remoteAnnotation.contents,
+            remoteAnnotation.category,
+            remoteAnnotation.group_n
+            );
+        break;
+        case AnnotationType.TEXT:
         annotation = new TextAnnotation(
             remoteAnnotation.box_id,
             bounds,
@@ -263,7 +274,7 @@ class AnnotationManager extends EventEmitter {
             remoteAnnotation.category
             );
         break;
-      case "figure": // skip arrows since they are imported separately
+      case "figure":
         break;
       default:
         console.error(
@@ -273,7 +284,6 @@ class AnnotationManager extends EventEmitter {
 
     if (annotation) {
       annotation.remoteId = remoteAnnotation.box_id;
-      // annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + remoteAnnotation.box_id;
       this.importAnnotation(imageId, annotation);
       remoteAnnotationMap.set(annotation.remoteId, remoteAnnotation.id);
     }
@@ -298,7 +308,8 @@ class AnnotationManager extends EventEmitter {
 
     importRemoteAnnotations(image, callback) {
     var am = this;
-    var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'test-remerged-annotations');
+    var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'annotations-w-questions');
+    // var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'test-remerged-annotations');
     // var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'merged-annotations');
     qwest.get(annotation_url).then(function(response) {
       var imported = 0;
@@ -306,9 +317,11 @@ class AnnotationManager extends EventEmitter {
       var remoteArrowOriginMap = new Map();
       var remoteArrowDestinationMap = new Map();
       var text_boxes = response.text;
-      for(var box in text_boxes){
-        am.importRemoteAnnotation(image.id, text_boxes[box], remoteAnnotationMap);
-        imported += 1;
+      for(var annotation_type in response){
+        for(var anno_id in response[annotation_type]){
+          am.importRemoteAnnotation(image.id, annotation_type, response[annotation_type][anno_id], remoteAnnotationMap);
+          imported += 1;
+        }
       }
       //
       // response.arrows.forEach(function(arrow) {

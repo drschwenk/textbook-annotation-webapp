@@ -93,7 +93,6 @@ class DiagramAnnotationTool extends React.Component {
   }
   advanceQuestionGroup() {
     AnnotationManager.advanceCurrentGroupNumber();
-    console.log(AnnotationManager.getCurrentGroupNumber());
   }
   cancelDragOver(event) {
     event.preventDefault();

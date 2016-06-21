@@ -7,6 +7,7 @@ const AnnotationType = require('../model/annotation-type');
 const ShapeAnnotation = require('../model/shape-annotation');
 const ContainerAnnotation = require('../model/container-annotation');
 const TextAnnotation = require('../model/text-annotation');
+const QuestionAnnotation = require('../model/question-annotation');
 const RelationshipAnnotation = require('../model/relationship-annotation');
 const ArrowAnnotation = require('../model/arrow-annotation');
 const Annotator = require('./annotator.jsx');
@@ -98,9 +99,13 @@ class RelationshipAnnotator extends Annotator {
   }
 
   handleClickEvent(event, annotation, arrowPoint, arrowPointType) {
-    annotation.category = AnnotationManager.getCurrentCategory();
-    AnnotationManager.addAnnotation(this.props.imageId, annotation);
-    // this.handleAnnotationClick(annotation);
+    if(annotation instanceof QuestionAnnotation){
+      annotation.category = AnnotationManager.getCurrentCategory();
+      annotation.group_n= AnnotationManager.getCurrentGroupNumber();
+      console.log(annotation.group_n);
+      AnnotationManager.addAnnotation(this.props.imageId, annotation);
+    }
+    // AnnotationManager.addAnnotation(this.props.imageId, annotation);
   }
   //   if (!this.relationship) {
   //     this.relationship = new RelationshipAnnotation(
