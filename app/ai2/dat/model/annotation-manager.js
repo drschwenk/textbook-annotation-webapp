@@ -62,6 +62,7 @@ class AnnotationManager extends EventEmitter {
     this.annotations = new Map();
     this.idSequence = 0;
     this.current_category_selector= "Short Answer";
+    this.current_question_group = 0;
     // this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/";
     this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/test-remerged-annotations/";
   }
@@ -77,6 +78,12 @@ class AnnotationManager extends EventEmitter {
   }
   setCurrentCategory(new_category){
     this.current_category_selector = new_category;
+  }
+  getCurrentGroupNumber(){
+    return this.current_question_group;
+  }
+  advanceCurrentGroupNumber(){
+    this.current_question_group += 1;
   }
   resetAnnotations(imageId) {
     this.annotations.set(imageId, new AnnotationCollection());
@@ -132,7 +139,6 @@ class AnnotationManager extends EventEmitter {
       this.annotations.set(imageId, new AnnotationCollection());
     }
     this.annotations.get(imageId).add(annotation);
-    // console.log(this.annotations.get(imageId));
     // if (annotation instanceof RelationshipAnnotation) {
       // this.addRelationships(imageId, annotation);
     // }
@@ -176,12 +182,9 @@ class AnnotationManager extends EventEmitter {
   saveAnnotations(imageID, annotation_map){
     var return_vals = [];
     for(var a_map  in annotation_map) {
-      // console.log(annotation_map[a_map]);
       annotation_map[a_map].forEach(function (obj, key) {
         var subset = ['id', 'category'].reduce(function (o, k) {
-          // console.log(o);
           o[k] = obj[k];
-          // console.log(o);
           return o;
         }, {});
         return_vals.push(subset);
@@ -295,7 +298,6 @@ class AnnotationManager extends EventEmitter {
 
     importRemoteAnnotations(image, callback) {
     var am = this;
-    // console.log(this.annotations);
     var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'test-remerged-annotations');
     // var annotation_url = image.url.replace('jpeg', 'json').replace('smaller-page-images', 'merged-annotations');
     qwest.get(annotation_url).then(function(response) {
@@ -379,7 +381,6 @@ class AnnotationManager extends EventEmitter {
             //   break;
             case AnnotationType.TEXT:
                 // for(var obj in annotation)
-                // console.log(annotation);
               annotation = new TextAnnotation(
                 annotation.id,
                 new Bounds(annotation.bounds.coords),

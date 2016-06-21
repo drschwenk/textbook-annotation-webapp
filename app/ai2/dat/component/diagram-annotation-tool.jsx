@@ -91,6 +91,10 @@ class DiagramAnnotationTool extends React.Component {
     var form = document.forms[0];
     form.submit();
   }
+  advanceQuestionGroup() {
+    AnnotationManager.advanceCurrentGroupNumber();
+    console.log(AnnotationManager.getCurrentGroupNumber());
+  }
   cancelDragOver(event) {
     event.preventDefault();
   }
@@ -106,8 +110,12 @@ class DiagramAnnotationTool extends React.Component {
       <div className="diagram-annotation-tool"
           onDragOver={this.cancelDragOver}>
         <header className="padded flex-row">
-          <button onClick={this.saveAndAdvance} className="btn-green">Save and Advance</button>
-          <h1 className=" flex-align-right">Textbook Annotation Tool</h1>
+          <h1 className=" flex-align-left">Textbook Annotation Tool</h1>
+          <button onClick={this.advanceQuestionGroup} className="btn-red">Save Question</button>
+        <p>
+          &emsp;
+        </p>
+         <button onClick={this.saveAndAdvance} className="btn-green">Save Page and Advance</button>
           <a href="https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/textbook_hit_instructions/instructions.html"
             target="_blank" className="review_instructions flex-align-right">
             <strong>Read Instructions Here</strong>
