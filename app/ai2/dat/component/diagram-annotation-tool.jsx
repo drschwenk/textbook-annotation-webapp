@@ -131,7 +131,7 @@ class DiagramAnnotationTool extends React.Component {
           {view}
         </main>
           <div className="flex-align-right">
-            <form action= "https://workersandbox.mturk.com/mturk/externalSubmit"
+            <form action="https://www.mturk.com/mturk/externalSubmit"
                   method="POST">
               <input type="hidden" name="assignmentId" id="myAssignmentId" value={url_params.assignmentId} />
               <input type="hidden" name="image_id" id="image_id" value = {url_params.url}/>
@@ -143,5 +143,6 @@ class DiagramAnnotationTool extends React.Component {
   }
 }
 
-// <form action="http://www.mturk.com/mturk/externalSubmit"
+// <form action= "https://workersandbox.mturk.com/mturk/externalSubmit"
+// <form action="https://www.mturk.com/mturk/externalSubmit"
 module.exports = DiagramAnnotationTool;
