@@ -17,13 +17,11 @@ class CategoryButton extends React.Component {
 
     render() {
       var color_map = new Object();
-      color_map["Header/Topic"] = "#e77423";
-      color_map["Discussion"] = "#286a8e";
-      color_map["Definition"] = "#3fb62c";
-      color_map["Question"] = "#a92020";
-      color_map["Answer"] = "#BA70CC";
-      color_map["Figure Label"] = "#e7d323";
-      color_map["unlabeled"] = "#8c9296";
+      color_map["Short Answer"] = "#e7d323";
+      color_map["Fill-in-the-Blank"] = "#286a8e";
+      color_map["True/False"] = "#3fb62c";
+      color_map["Unlabeled"] = "#e77423";
+      color_map["Multiple Choice"] = "#BA70CC";
 
       function get_rgb_value(k) {
         return color_map[k];

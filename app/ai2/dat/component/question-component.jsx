@@ -3,30 +3,21 @@
 const React = require('react');
 
 const AnnotationBounds = require('./annotation-bounds.jsx');
-const RelateableComponent = require('./relateable-component.jsx');
+const QuestionComponent = require('./test-annotation-component.jsx');
 
-class TextAnnotationComponent extends RelateableComponent {
+class QuestionComponent extends TextAnnotationComponent{
   constructor(props) {
     super(props);
   }
   render() {
-    var label = this.props.annotation.id;
-    var category = this.props.annotation.category;
-    if (this.props.annotation.text) {
-      label += ': \u201C' + this.props.annotation.text + '\u201D';
-    }
+    var question_type = this.props.annotation.category;
     const cssClass = this.getRelatedCssClass();
     const relationshipLabels = this.renderRelationshipLabels();
-    // console.log(relationshipLabels);
     const bounds = this.props.annotation.bounds.getBoundingRectangle();
-    //          className={cssClass}
-    //          relationshipLabels={relationshipLabels}
 
     return (
       <AnnotationBounds
-          textLabel={label}
-          category={category}
-          group_n={group_n}
+          category={question_type}
           onClick={this.onClick}
           x1={bounds.left}
           y1={bounds.top}

@@ -5,7 +5,8 @@ const AnnotationType = {
   SHAPE: 'shape',
   RELATIONSHIP: 'relationship',
   CONTAINER: 'container',
-  TEXT: 'text'
+  TEXT: 'text',
+  QUESTION: 'question'
 };
 
 Object.freeze(AnnotationType);

@@ -8,6 +8,7 @@ const AnnotationManagerEvent = require('./annotation-manager-event');
 const RelationshipAnnotation = require('./relationship-annotation');
 const ArrowAnnotation = require('./arrow-annotation');
 const TextAnnotation = require('./text-annotation');
+const QuestionAnnotation = require('./question-annotation');
 const ContainerAnnotation = require('./container-annotation');
 const ShapeAnnotation = require('./shape-annotation');
 const Bounds = require('./bounds');
@@ -61,7 +62,10 @@ class AnnotationManager extends EventEmitter {
     this.mode = AnnotationMode.default();
     this.annotations = new Map();
     this.idSequence = 0;
-    this.current_category_selector= "Header/Topic";
+    this.current_category_selector= "Short Answer";
+    this.current_question_group = 1;
+    // this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/merged-annotations/";
+    this.base_url = "https://s3-us-west-2.amazonaws.com/ai2-vision-turk-data/textbook-annotation-test/test-remerged-annotations/";
   }
   clear() {
     this.annotations.clear();
@@ -76,10 +80,16 @@ class AnnotationManager extends EventEmitter {
   setCurrentCategory(new_category){
     this.current_category_selector = new_category;
   }
+  getCurrentGroupNumber(){
+    return this.current_question_group;
+  }
+  advanceCurrentGroupNumber(){
+    this.current_question_group += 1;
+    this.emit(AnnotationManagerEvent.MODE_CHANGED);
+  }
   resetAnnotations(imageId) {
     this.annotations.set(imageId, new AnnotationCollection());
   }
-
   getAnnotations(imageId) {
     return this.annotations.get(imageId) || new AnnotationCollection();
   }
@@ -131,9 +141,9 @@ class AnnotationManager extends EventEmitter {
       this.annotations.set(imageId, new AnnotationCollection());
     }
     this.annotations.get(imageId).add(annotation);
-    if (annotation instanceof RelationshipAnnotation) {
-      this.addRelationships(imageId, annotation);
-    }
+    // if (annotation instanceof RelationshipAnnotation) {
+      // this.addRelationships(imageId, annotation);
+    // }
     this.emit(AnnotationManagerEvent.ANNOTATION_ADDED, imageId, annotation);
     return this;
   }
@@ -213,39 +223,48 @@ class AnnotationManager extends EventEmitter {
     remoteAnnotationMap.set(annotation.remoteId, annotation.id);
   }
 
-  importRemoteAnnotation(imageId, remoteAnnotation, remoteAnnotationMap) {
+  importRemoteAnnotation(imageId, annotation_type, remoteAnnotation, remoteAnnotationMap) {
     var tool_body = window.document.getElementsByTagName('main')[0];
     var body_height = tool_body.clientHeight;
-    for(var key in remoteAnnotation){
-      var box_name = key;
-      var annotation_val = remoteAnnotation[key];
-    }
-    var o_height = annotation_val.v_dim;
-    var bounding_boxes = annotation_val.rectangle;
-    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height);
-    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height);
-    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height);
-    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height);
-
+    // for(var key in remoteAnnotation){
+    //   var box_name = key;
+    //   var annoation_val = remoteAnnotation[key];
+    // }
+    var o_height = remoteAnnotation.v_dim;
+    var bounding_boxes = remoteAnnotation.rectangle;
+    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
+    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-10;
+    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+10;
+    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+10;
 
     var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
+
     var annotation;
-    switch (annotation_val.type) {
+    switch (annotation_type) {
       case AnnotationType.SHAPE:
         annotation = new ShapeAnnotation(this.getNewAnnotationId(AnnotationType.SHAPE),bounds);
         break;
       case "relationship":
         annotation = new ContainerAnnotation(this.getNewAnnotationId(AnnotationType.CONTAINER), bounds);
         break;
-      case AnnotationType.TEXT:
-        annotation = new TextAnnotation(
-            annotation_val.box_id,
+      case AnnotationType.QUESTION:
+          annotation = new QuestionAnnotation(
+            remoteAnnotation.box_id,
             bounds,
-            annotation_val.contents,
-            annotation_val.category
+            remoteAnnotation.contents,
+            remoteAnnotation.category,
+            remoteAnnotation.group_n
             );
         break;
-      case "figure": // skip arrows since they are imported separately
+        case AnnotationType.TEXT:
+        annotation = new TextAnnotation(
+            remoteAnnotation.box_id,
+            bounds,
+            remoteAnnotation.contents,
+            remoteAnnotation.category
+            );
+        break;
+      case "figure":
         break;
       default:
         console.error(

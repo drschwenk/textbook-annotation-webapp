@@ -20,14 +20,20 @@ class AnnotationBounds extends React.Component {
     var zIndex = Math.round(Math.pow(2, 24)/(width * height));
 
     var color_map = new Object();
-    color_map["Header/Topic"] = "#e77423";
-    color_map["Discussion"] = "#286a8e";
-    color_map["Definition"] = "#3fb62c";
-    color_map["Question"] = "#a92020";
-    color_map["Answer"] = "#BA70CC";
-    color_map["Figure Label"] = "#e7d323";
+    color_map["Header/Topic"] = "#8c9296";
+    color_map["Discussion"] = "#8c9296";
+    color_map["Definition"] = "#8c9296";
+    color_map["Question"] = "#e77423";
+    color_map["Answer"] = "#8c9296";
     color_map["unlabeled"] = "#8c9296";
     color_map["No Consensus"] = "#00FFF2";
+    color_map["Figure Label"] = "#8c9296";
+    color_map["Short Answer"] = "#e7d323";
+    color_map["Fill-in-the-Blank"] = "#286a8e";
+    color_map["True/False"] = "#3fb62c";
+    color_map["Multiple Choice"] = "#BA70CC";
+    color_map["Unlabeled"] = "#e77423";
+
 
     function get_rgb_value(k) {
       return color_map[k];
@@ -41,6 +47,12 @@ class AnnotationBounds extends React.Component {
     var color_with_trans = 'rgba('+red+','+green+','+blue+','+opacity+')';
       return color_with_trans;
     }
+    if(this.props.group_n > 0 && this.props.group_n < AnnotationManager.getCurrentGroupNumber()){
+      var box_opacity = 0.8
+    }
+    else{
+      var box_opacity = 0.3
+    }
     var styles = {
           base: {
             left: this.props.x1 + 'px',
@@ -48,7 +60,7 @@ class AnnotationBounds extends React.Component {
             width: width + 'px',
             height: height + 'px',
             zIndex: zIndex,
-            backgroundColor: convertHex(get_rgb_value(this.props.category), 0.30),
+            backgroundColor: convertHex(get_rgb_value(this.props.category), box_opacity),
             ':hover': {
               border: "8px dotted " + convertHex(get_rgb_value(AnnotationManager.getCurrentCategory()), 0.8)
             }

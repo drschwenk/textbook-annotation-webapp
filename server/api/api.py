@@ -61,6 +61,7 @@ class Annotation(Resource):
             for obj_name, obj in objs.items():
                 obj['type'] = a_type
                 flattened_json.append({obj_name: obj})
+
         return flattened_json
 
     def transform_url(self, url):
