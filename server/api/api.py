@@ -81,8 +81,8 @@ class Annotation(Resource):
         # remote_annotation = rq.get(annotation_url)
         # annotation_json = self.flatten_json(json.loads(remote_annotation.content))
         raw_annotation_json = self.import_local(image_url)
-        annotation_json = self.flatten_json(raw_annotation_json)
-        return annotation_json
+        # annotation_json = self.flatten_json(raw_annotation_json)
+        return raw_annotation_json
 
     def put(self, image_idx):
         return '200'

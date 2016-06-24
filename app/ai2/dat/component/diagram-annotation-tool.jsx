@@ -27,9 +27,11 @@ class DiagramAnnotationTool extends React.Component {
   }
   advanceImage(){
     ImageManager.selectNextFinishedImage();
+    AnnotationManager.resetGroupNumber();
   }
   retardImage(){
     ImageManager.selectPreviousFinishedImage();
+    AnnotationManager.resetGroupNumber();
   }
   componentDidMount() {
     ImageManager.on(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);

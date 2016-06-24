@@ -87,6 +87,9 @@ class AnnotationManager extends EventEmitter {
     this.current_question_group += 1;
     this.emit(AnnotationManagerEvent.MODE_CHANGED);
   }
+  resetGroupNumber(){
+    this.current_question_group = 1;
+  }
   resetAnnotations(imageId) {
     this.annotations.set(imageId, new AnnotationCollection());
   }
@@ -226,10 +229,7 @@ class AnnotationManager extends EventEmitter {
   importRemoteAnnotation(imageId, annotation_type, remoteAnnotation, remoteAnnotationMap) {
     var tool_body = window.document.getElementsByTagName('main')[0];
     var body_height = tool_body.clientHeight;
-    // for(var key in remoteAnnotation){
-    //   var box_name = key;
-    //   var annoation_val = remoteAnnotation[key];
-    // }
+
     var o_height = remoteAnnotation.v_dim;
     var bounding_boxes = remoteAnnotation.rectangle;
     var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
@@ -238,7 +238,7 @@ class AnnotationManager extends EventEmitter {
     var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+10;
 
     var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
-
+    console.log(annotation_type);
     var annotation;
     switch (annotation_type) {
       case AnnotationType.SHAPE:
@@ -273,10 +273,10 @@ class AnnotationManager extends EventEmitter {
     }
 
     if (annotation) {
-      annotation.remoteId = annotation_val.box_id;
-      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + annotation_val.box_id;
+      annotation.remoteId = remoteAnnotation.box_id;
+      annotation.remoteUrl = "/api/images/" + imageId + "/annotations/" + remoteAnnotation.box_id;
       this.importAnnotation(imageId, annotation);
-      remoteAnnotationMap.set(annotation.remoteId, annotation_val.id);
+      remoteAnnotationMap.set(annotation.remoteId, remoteAnnotation.id);
     }
   }
 
@@ -297,87 +297,6 @@ class AnnotationManager extends EventEmitter {
     this.importAnnotation(imageId, relationship);
   }
 
-  importAnnotationsFromJson(imageId, annotations) {
-
-    var imported = 0;
-    // if (ImageManager.hasImageWithName(imageId)) {
-      if(1) {
-      // We need to do relationships last, so let's sort them accordingly
-      // annotations.sort(function(a, b) {
-      //   const aIsRelationship = a.type === AnnotationType.RELATIONSHIP;
-      //   const bIsRelationship = b.type === AnnotationType.RELATIONSHIP;
-      //
-      //   // a is not a relationship, b is a relationship, sort it lower in the list
-      //   if (!aIsRelationship && bIsRelationship) {
-      //     return -1;
-      //   }
-      //   // a is a relationship, b is not, sort b lower in the last
-      //   else if (aIsRelationship && !bIsRelationship) {
-      //     return 1;
-      //   }
-      //   // no change, as they're either the same type or both not relationships
-      //   else {
-      //     return 0;
-      //   }
-      // });
-      for(var type in annotations){
-        var annotation = annotations[type];
-        switch (type) {
-          // case AnnotationType.SHAPE:
-          //   annotation = new ShapeAnnotation(
-          //     annotation.id,
-          //     new Bounds(annotation.bounds.coords)
-          //   );
-          //   break;
-          // case AnnotationType.CONTAINER:
-          //   annotation = new ContainerAnnotation(
-          //     annotation.id,
-          //     new Bounds(annotation.bounds.coords)
-          //   );
-          //   break;
-          // case AnnotationType.ARROW:
-          //   const origins = Array.isArray(annotation.origins) ? annotation.origins : [];
-          //   const dests = Array.isArray(annotation.destinations) ? annotation.destinations : [];
-          //   annotation = new ArrowAnnotation(
-          //     annotation.id,
-          //     origins.map(function(o) {
-          //       return new ArrowPointBounds(o.id, o.rotation, ...o.coords);
-          //     }),
-          //     dests.map(function(d) {
-          //       return new ArrowPointBounds(d.id, d.rotation, ...d.coords);
-          //     })
-          //   );
-          //   break;
-          case AnnotationType.TEXT:
-              // for(var obj in annotation)
-              // console.log(annotation);
-            annotation = new TextAnnotation(
-              annotation.id,
-              new Bounds(annotation.bounds.coords),
-              annotation.text
-            );
-            break;
-          // case AnnotationType.RELATIONSHIP:
-          //   annotation = new RelationshipAnnotation(
-          //     annotation.id,
-          //     annotation.source,
-          //     annotation.target,
-          //     annotation.arrowOrigin,
-          //     annotation.arrowDestination
-          //   );
-          //   break;
-          default:
-            // MessageManager.warn(
-            //   'Unsupported annotation type: "' + annotation.type + '."'
-            // );
-        }
-        this.addAnnotation(imageId, annotation);
-      }
-      imported = annotations.length;
-    }
-    return imported;
-  }
-
   importRemoteAnnotations(image, callback) {
     var am = this;
     qwest.get("/api/images/" + image.id + "/annotations").then(function(response) {
@@ -390,10 +309,15 @@ class AnnotationManager extends EventEmitter {
         // console.log(response[vt]);
       // };
       // am.importAnnotationsFromJson(1, response);
-      response.forEach(function(annotation) {
-        am.importRemoteAnnotation(image.id, annotation, remoteAnnotationMap);
-        imported += 1;
-      });
+      // response.forEach(function(annotation) {
+        // am.importRemoteAnnotation(image.id, annotation, remoteAnnotationMap);
+        // imported += 1;
+      // });
+      for(var annotation_type in response){
+        for(var anno_id in response[annotation_type]){
+          am.importRemoteAnnotation(image.id, annotation_type, response[annotation_type][anno_id], remoteAnnotationMap);
+        }
+      }
       //
       // response.arrows.forEach(function(arrow) {
       //   am.importRemoteArrowAnnotation(image.id, arrow, remoteAnnotationMap, remoteArrowOriginMap, remoteArrowDestinationMap);
