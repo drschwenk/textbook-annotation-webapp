@@ -25,8 +25,7 @@ class TextAnnotationComponent extends RelateableComponent {
 
     return (
       <AnnotationBounds
-        textLabel={label}
-          category={category}
+        category={category}
           group_n={group_n}
           onClick={this.onClick}
           x1={bounds.left}
@@ -37,4 +36,5 @@ class TextAnnotationComponent extends RelateableComponent {
   }
 }
 
-module.exports = TextAnnotationComponent;
+        // textLabel={label}
+  module.exports = TextAnnotationComponent;

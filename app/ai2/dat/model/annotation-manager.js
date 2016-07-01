@@ -232,10 +232,10 @@ class AnnotationManager extends EventEmitter {
 
     var o_height = remoteAnnotation.v_dim;
     var bounding_boxes = remoteAnnotation.rectangle;
-    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height)-10;
-    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height)-10;
-    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height)+10;
-    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height)+10;
+    var c1 = ~~(bounding_boxes[0][0]*body_height/o_height);
+    var c2 = ~~(bounding_boxes[0][1]*body_height/o_height);
+    var c3 = ~~(bounding_boxes[1][0]*body_height/o_height);
+    var c4 = ~~(bounding_boxes[1][1]*body_height/o_height);
 
     var bounds = new Bounds(new Point(c1, c2), new Point(c3, c4));
     console.log(annotation_type);
