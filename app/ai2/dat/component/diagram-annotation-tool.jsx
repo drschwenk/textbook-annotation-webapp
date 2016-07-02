@@ -59,7 +59,7 @@ class DiagramAnnotationTool extends React.Component {
     ImageManager.on(ImageManagerEvent.NEW_IMAGES, this.handleNewImageSet);
 
     KeyMaster.on(KeyCode.Enter, this.saveAndAdvance);
-    KeyMaster.on(KeyCode.Advance_Question, this.advanceQuestionGroup);
+    // KeyMaster.on(KeyCode.Advance_Question, this.advanceQuestionGroup);
     KeyMaster.on(KeyCode.Unlabeled, this.set_unlabeled);
     KeyMaster.on(KeyCode.Header_Topic, this.set_header);
     KeyMaster.on(KeyCode.Discussion, this.set_discussion);
@@ -111,7 +111,6 @@ class DiagramAnnotationTool extends React.Component {
           onDragOver={this.cancelDragOver}>
         <header className="padded flex-row">
           <h1 className=" flex-align-left">Textbook Annotation Tool</h1>
-          <button onClick={this.advanceQuestionGroup} className="btn-red">q) Save Question</button>
         <p>
           &emsp;
         </p>
